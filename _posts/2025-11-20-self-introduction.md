@@ -1,6 +1,7 @@
 ---
 title: Self Introduction
 date: 2025-11-20
+category: Profile
 ---
 
 ## M.S. in Informatics / Researcher / Engineer

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Blog Network | Nozomu Yoshida</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:300,400,600" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #337ab7;
+            /* Bootstrap primary blue from main site */
+            --node-color: #e0e0e0;
+            --link-color: #cccccc;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Open Sans', sans-serif;
+            /* Match main site font */
+            color: var(--text-color);
+        }
+
+        #network {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* UI Elements */
+        .ui-layer {
+            position: absolute;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .header-panel {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            pointer-events: auto;
+            max-width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            /* Minimalist border/shadow to match clean CV style */
+            border-left: 3px solid var(--accent-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-panel h1 {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+
+        .header-panel p {
+            margin: 0 0 20px 0;
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            pointer-events: auto;
+            display: inline-block;
+            padding: 8px 16px;
+            background: #fff;
+            border: 1px solid #ddd;
+            color: #555;
+            text-decoration: none;
+            border-radius: 3px;
+            /* Slightly squared for CV look */
+            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+            border-color: #ccc;
+            text-decoration: none;
+        }
+
+        /* Legend & Info */
+        .info-section h3 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .info-item {
+            margin-bottom: 6px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            color: #666;
+        }
+
+        .info-item strong {
+            margin-right: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .legend {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #eee;
+            padding: 12px;
+            border-radius: 3px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 250px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            color: #333;
+            z-index: 20;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #tooltip h3 {
+            margin: 0 0 3px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        #tooltip p {
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #666;
+        }
+
+        /* Graph Styles */
+        .node circle {
+            stroke: #fff;
+            stroke-width: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+        }
+
+        .node:hover circle {
+            stroke: var(--accent-color);
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
+        }
+
+        .node text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 10px;
+            pointer-events: none;
+            opacity: 0;
+            fill: #555;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .node:hover text {
+            opacity: 1;
+            transform: translate(12px, -4px);
+            font-size: 11px;
+            fill: #000;
+        }
+
+        /* Highlight State */
+        .node.dimmed {
+            opacity: 0.1;
+        }
+
+        .node.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ui-layer">
+        <div class="header-panel">
+            <h1>Knowledge Graph</h1>
+            <p>Visualizing connections between my thoughts and experiences.</p>
+
+            <div class="info-section">
+                <h3>How to Read</h3>
+                <div class="info-item">
+                    <strong>Size:</strong> Article length (longer = larger).
+                </div>
+                <div class="info-item">
+                    <strong>Distance:</strong> Content similarity.
+                </div>
+                <div class="info-item">
+                    <strong>Color:</strong> Category.
+                </div>
+
+                <div class="legend" id="legend">
+                    <!-- Legend items will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <a href="/blog/" class="back-btn">&larr; Back to Blog</a>
+
+        <div id="tooltip"></div>
+    </div>
+
+    <div id="network"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const svg = d3.select("#network").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .call(d3.zoom().on("zoom", (event) => {
+                container.attr("transform", event.transform);
+            }))
+            .append("g");
+
+        const container = svg.append("g");
+
+        // No dark gradient for light theme
+
+
+        const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(150))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collide", d3.forceCollide(d => sizeScale(d.size) + 10)); // Dynamic collision radius
+
+        const tooltip = d3.select("#tooltip");
+
+        // Scale for node size based on article length
+        // Further adjusted range to minimize variance: 12px to 16px radius
+        const sizeScale = d3.scaleSqrt().range([12, 16]);
+
+        d3.json("network-data.json").then(function (graph) {
+
+            // Calculate node degrees for sizing
+            const nodeDegree = {};
+            graph.links.forEach(link => {
+                nodeDegree[link.source] = (nodeDegree[link.source] || 0) + 1;
+                nodeDegree[link.target] = (nodeDegree[link.target] || 0) + 1;
+            });
+
+            // Set domain for size scale
+            const minSize = d3.min(graph.nodes, d => d.size) || 100;
+            const maxSize = d3.max(graph.nodes, d => d.size) || 5000;
+            sizeScale.domain([minSize, maxSize]);
+
+            // NOTE: Links are NOT rendered visually, but they still affect the simulation.
+
+            const node = container.append("g")
+                .attr("class", "nodes")
+                .selectAll("g")
+                .data(graph.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended))
+                .on("click", (event, d) => window.location.href = d.url)
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout);
+
+            // Color scale for categories
+            const categories = Array.from(new Set(graph.nodes.map(d => d.group))).sort();
+            const color = d3.scaleOrdinal(d3.schemeCategory10).domain(categories);
+
+            // Populate Legend
+            const legendContainer = d3.select("#legend");
+            categories.forEach(cat => {
+                const item = legendContainer.append("div").attr("class", "legend-item");
+                item.append("span").attr("class", "dot").style("background", color(cat));
+                item.append("span").text(cat);
+            });
+
+            node.append("circle")
+                .attr("r", d => sizeScale(d.size || 1000)) // Size based on article length
+                .attr("fill", d => color(d.group));
+
+            node.append("text")
+                .attr("dx", d => sizeScale(d.size || 1000) + 5)
+                .attr("dy", ".35em")
+                .text(d => d.title);
+
+            simulation
+                .nodes(graph.nodes)
+                .on("tick", ticked);
+
+            simulation.force("link")
+                .links(graph.links);
+
+            function ticked() {
+                // Only update node positions, no links to update
+                node
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+            }
+
+            function mouseover(event, d) {
+                // Highlight connections
+                node.classed("dimmed", true);
+
+                const connectedNodeIds = new Set();
+                connectedNodeIds.add(d.id);
+
+                // Find connected nodes via the graph.links data (even if not rendered)
+                graph.links.forEach(l => {
+                    if (l.source.id === d.id || l.target.id === d.id) {
+                        connectedNodeIds.add(l.source.id);
+                        connectedNodeIds.add(l.target.id);
+                    }
+                });
+
+                node.filter(n => connectedNodeIds.has(n.id))
+                    .classed("active", true)
+                    .classed("dimmed", false);
+
+                // Show tooltip
+                tooltip.style("opacity", 1)
+                    .html(`<h3>${d.title}</h3><p>Click to read article</p>`)
+                    .style("left", (event.pageX + 20) + "px")
+                    .style("top", (event.pageY - 20) + "px");
+            }
+
+            function mouseout() {
+                node.classed("dimmed", false).classed("active", false);
+                tooltip.style("opacity", 0);
+            }
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        window.addEventListener('resize', () => {
+            svg.attr("width", window.innerWidth).attr("height", window.innerHeight);
+            simulation.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
+            simulation.alpha(0.3).restart();
+        });
+    </script>
+
+</body>
+
+</html>

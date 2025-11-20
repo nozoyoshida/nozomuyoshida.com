@@ -42,9 +42,9 @@ const blogFooter = `
 function generatePage(title, content, isIndex = false) {
     // Adjust paths for CSS/JS since we are in /blog/
     const adjustedHead = headContent.replace(/href="css\//g, 'href="../css/')
-                                    .replace(/href="media\//g, 'href="../media/')
-                                    .replace(/src="js\//g, 'src="../js/')
-                                    .replace(/src="vendor\//g, 'src="../vendor/');
+        .replace(/href="media\//g, 'href="../media/')
+        .replace(/src="js\//g, 'src="../js/')
+        .replace(/src="vendor\//g, 'src="../vendor/');
 
     return `<!DOCTYPE html>
 <html>
@@ -89,12 +89,13 @@ fs.readdirSync(POSTS_DIR).forEach(file => {
         const { attributes, body } = frontMatter(fileContent);
         const htmlContent = marked.parse(body);
         const slug = path.basename(file, '.md');
-        
+
         posts.push({
             slug,
             title: attributes.title,
             date: attributes.date,
             html: htmlContent,
+            body: body, // Include raw body for length calculation
             ...attributes
         });
 
@@ -117,6 +118,9 @@ posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 // Generate Index Page
 const indexContent = `
     <div class="blog-list">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="network/" class="btn btn-default"><i class="fa fa-share-alt"></i> View Network Graph</a>
+        </div>
         ${posts.map(post => `
             <div class="cv-item">
                 <h3><a href="${post.slug}.html">${post.title}</a></h3>
@@ -128,5 +132,55 @@ const indexContent = `
 `;
 
 fs.writeFileSync(path.join(BLOG_DIR, 'index.html'), generatePage('Blog', indexContent, true));
+
+// --- Network Visualization Data Generation ---
+
+function getTokens(text) {
+    return text.toLowerCase()
+        .replace(/[^\w\s]/g, '') // Remove punctuation
+        .split(/\s+/)
+        .filter(word => word.length > 3); // Filter short words
+}
+
+function calculateSimilarity(tokens1, tokens2) {
+    const set1 = new Set(tokens1);
+    const set2 = new Set(tokens2);
+    const intersection = new Set([...set1].filter(x => set2.has(x)));
+    const union = new Set([...set1, ...set2]);
+    return intersection.size / union.size; // Jaccard similarity for simplicity
+}
+
+const nodes = posts.map((post, index) => ({
+    id: post.slug,
+    title: post.title,
+    url: `/blog/${post.slug}.html`,
+    group: post.category || 'General',
+    size: post.body.length // Use markdown body length
+}));
+
+const links = [];
+for (let i = 0; i < posts.length; i++) {
+    for (let j = i + 1; j < posts.length; j++) {
+        const tokens1 = getTokens(posts[i].html.replace(/<[^>]*>/g, '')); // Strip HTML
+        const tokens2 = getTokens(posts[j].html.replace(/<[^>]*>/g, ''));
+        const weight = calculateSimilarity(tokens1, tokens2);
+
+        if (weight > 0.05) { // Threshold for connection
+            links.push({
+                source: posts[i].slug,
+                target: posts[j].slug,
+                value: weight
+            });
+        }
+    }
+}
+
+const networkDir = path.join(BLOG_DIR, 'network');
+if (!fs.existsSync(networkDir)) {
+    fs.mkdirSync(networkDir);
+}
+
+fs.writeFileSync(path.join(networkDir, 'network-data.json'), JSON.stringify({ nodes, links }, null, 2));
+console.log('Network data generated.');
 
 console.log('Blog built successfully!');
