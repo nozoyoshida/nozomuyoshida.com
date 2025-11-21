@@ -22,35 +22,67 @@ const headContent = headMatch ? headMatch[1] : '';
 // Common Header/Footer for Blog
 // We'll create a simplified version of the header for the blog
 const blogHeader = `
-<div id="header" class="header-min">
+<header id="header" class="header-min">
     <div class="cv-section">
         <div class="col-md-12">
             <h1><a href="/" style="color: #333;">Nozomu Yoshida</a> <small style="font-size: 0.6em;">/ Blog</small></h1>
         </div>
     </div>
-</div>
+</header>
 `;
 
 const blogFooter = `
-<div id="footer">
+<footer id="footer">
     <div class="copyright">
         <p>&copy; 2016–${new Date().getFullYear()} Nozomu Yoshida</p>
     </div>
-</div>
+</footer>
 `;
 
-function generatePage(title, content, isIndex = false) {
+function generatePage(title, content, isIndex = false, metadata = {}) {
     // Adjust paths for CSS/JS since we are in /blog/
-    const adjustedHead = headContent.replace(/href="css\//g, 'href="../css/')
+    let adjustedHead = headContent.replace(/href="css\//g, 'href="../css/')
         .replace(/href="media\//g, 'href="../media/')
         .replace(/src="js\//g, 'src="../js/')
         .replace(/src="vendor\//g, 'src="../vendor/');
+
+    // Remove default title and meta tags that we want to override
+    adjustedHead = adjustedHead.replace(/<title>.*<\/title>/, '')
+        .replace(/<meta name="description".*?>/, '')
+        .replace(/<meta name="keywords".*?>/, '')
+        .replace(/<link rel="canonical".*?>/, '')
+        .replace(/<meta property="og:.*?>/g, '')
+        .replace(/<meta property="twitter:.*?>/g, '');
+
+    const pageTitle = `${title} | Nozomu Yoshida`;
+    const pageDesc = metadata.description || "Nozomu Yoshida - M.S. in Informatics, Researcher, and Engineer specializing in HCI and Accessibility.";
+    const pageUrl = metadata.url || "https://nozomuyoshida.com/blog/";
+    const pageImage = metadata.image || "https://nozomuyoshida.com/media/profile/portrait_guitar.jpg";
+    const pageType = isIndex ? 'website' : 'article';
 
     return `<!DOCTYPE html>
 <html>
 <head>
     ${adjustedHead}
-    <title>${title} | Nozomu Yoshida</title>
+    <title>${pageTitle}</title>
+    <meta name="description" content="${pageDesc}">
+    <link rel="canonical" href="${pageUrl}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="${pageType}">
+    <meta property="og:url" content="${pageUrl}">
+    <meta property="og:title" content="${pageTitle}">
+    <meta property="og:description" content="${pageDesc}">
+    <meta property="og:image" content="${pageImage}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="${pageUrl}">
+    <meta property="twitter:title" content="${pageTitle}">
+    <meta property="twitter:description" content="${pageDesc}">
+    <meta property="twitter:image" content="${pageImage}">
+    <meta property="twitter:site" content="@nozoyoshida">
+
     <style>
         /* Blog specific overrides */
         #page { margin-top: 20px; }
@@ -68,12 +100,12 @@ function generatePage(title, content, isIndex = false) {
 <div id="page" class="container">
     ${blogHeader}
     
-    <div id="content" class="cv-section blog-content">
+    <main id="content" class="cv-section blog-content">
         <div class="col-md-12">
             ${!isIndex ? '<a href="/blog/" class="back-link">&larr; Back to Blog</a>' : ''}
             ${content}
         </div>
-    </div>
+    </main>
 
     ${blogFooter}
 </div>
@@ -106,7 +138,13 @@ fs.readdirSync(POSTS_DIR).forEach(file => {
                 <h1>${attributes.title}</h1>
                 <span class="date">${new Date(attributes.date).toLocaleDateString()}</span>
                 <div class="blog-post-content">${htmlContent}</div>
-             </div>`
+             </div>`,
+            false,
+            {
+                description: attributes.excerpt || attributes.description || `Read ${attributes.title} on Nozomu Yoshida's Blog`,
+                url: `https://nozomuyoshida.com/blog/${slug}.html`,
+                image: attributes.image
+            }
         );
         fs.writeFileSync(path.join(BLOG_DIR, `${slug}.html`), postHtml);
     }
@@ -131,7 +169,10 @@ const indexContent = `
     </div>
 `;
 
-fs.writeFileSync(path.join(BLOG_DIR, 'index.html'), generatePage('Blog', indexContent, true));
+fs.writeFileSync(path.join(BLOG_DIR, 'index.html'), generatePage('Blog', indexContent, true, {
+    description: "Blog of Nozomu Yoshida - Thoughts on HCI, Accessibility, and Technology.",
+    url: "https://nozomuyoshida.com/blog/"
+}));
 
 // --- Network Visualization Data Generation ---
 

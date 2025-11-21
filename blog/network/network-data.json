@@ -22,11 +22,25 @@
       "size": 819
     },
     {
+      "id": "2025-11-21-new-post",
+      "title": "My New Post",
+      "url": "/blog/2025-11-21-new-post.html",
+      "group": "General",
+      "size": 199
+    },
+    {
       "id": "2025-11-20-self-introduction",
       "title": "Self Introduction",
       "url": "/blog/2025-11-20-self-introduction.html",
       "group": "Profile",
       "size": 1883
+    },
+    {
+      "id": "2023-11-20-test",
+      "title": "Welcome to My Blog",
+      "url": "/blog/2023-11-20-test.html",
+      "group": "General",
+      "size": 286
     },
     {
       "id": "2023-11-20-welcome",
@@ -46,6 +60,21 @@
       "source": "2025-11-21-hci-research-trends",
       "target": "2025-11-20-self-introduction",
       "value": 0.08227848101265822
+    },
+    {
+      "source": "2025-11-21-new-post",
+      "target": "2023-11-20-test",
+      "value": 0.17142857142857143
+    },
+    {
+      "source": "2025-11-21-new-post",
+      "target": "2023-11-20-welcome",
+      "value": 0.17142857142857143
+    },
+    {
+      "source": "2023-11-20-test",
+      "target": "2023-11-20-welcome",
+      "value": 1
     }
   ]
 }
