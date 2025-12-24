@@ -8,6 +8,13 @@
       "size": 23232
     },
     {
+      "id": "2025-12-24-gcp_ce_vs_openai_fde",
+      "title": "【DR】生成AI時代における技術デリバリー職の構造的変容：OpenAI Forward Deployed Engineer と Google Cloud Customer Engineer の包括的比較調査報告書",
+      "url": "/blog/2025-12-24-gcp_ce_vs_openai_fde.html",
+      "group": "Career",
+      "size": 25105
+    },
+    {
       "id": "2025-11-21-hci-research-trends",
       "title": "Trends in HCI Research 2025",
       "url": "/blog/2025-11-21-hci-research-trends.html",
@@ -23,6 +30,11 @@
     }
   ],
   "links": [
+    {
+      "source": "2025-12-24-ce_fde_sa_se_comparison",
+      "target": "2025-12-24-gcp_ce_vs_openai_fde",
+      "value": 0.11956521739130435
+    },
     {
       "source": "2025-11-21-hci-research-trends",
       "target": "2025-11-20-self-introduction",
