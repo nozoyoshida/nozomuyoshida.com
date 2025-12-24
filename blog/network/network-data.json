@@ -1,6 +1,13 @@
 {
   "nodes": [
     {
+      "id": "2025-12-24-ce_fde_sa_se_comparison",
+      "title": "【DR】生成AI時代における技術実装と顧客接点の再定義：FDE、客先常駐SE、Google CE、AWS SAの構造的比較と将来的展望",
+      "url": "/blog/2025-12-24-ce_fde_sa_se_comparison.html",
+      "group": "Career",
+      "size": 23232
+    },
+    {
       "id": "2025-11-23-coffee-brewing",
       "title": "The Art of Pour-Over Coffee",
       "url": "/blog/2025-11-23-coffee-brewing.html",
