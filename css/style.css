@@ -935,6 +935,52 @@ to {
   }
 }
 /*================================================================
+  #BLOG - table styles (improve readability in blog posts)
+  ================================================================*/
+.blog-post-content {
+  /* allow horizontal scroll on small screens if table is wide */
+  -webkit-overflow-scrolling: touch;
+}
+.blog-post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+  font-size: 15px;
+  line-height: 1.4;
+  display: table;
+}
+.blog-post-content th,
+.blog-post-content td {
+  border: 1px solid #e6e6e6;
+  padding: 0.55em 0.8em;
+  text-align: left;
+  vertical-align: top;
+}
+.blog-post-content thead th,
+.blog-post-content th {
+  background: #f6f7f8;
+  font-weight: 700;
+  color: #333;
+}
+.blog-post-content tbody tr:nth-child(odd) {
+  background: #fff;
+}
+.blog-post-content tbody tr:nth-child(even) {
+  background: #fbfbfb;
+}
+.blog-post-content table code,
+.blog-post-content table pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+@media screen and (max-width: 767px) {
+  .blog-post-content table {
+    display: block; /* allow horizontal scroll on narrow viewports */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+/*================================================================
   #FIX - print
   ================================================================*/
 @media print {
