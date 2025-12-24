@@ -25,7 +25,7 @@ const blogHeader = `
 <header id="header" class="header-min">
     <div class="cv-section">
         <div class="col-md-12">
-            <h1><a href="/" style="color: #333;">Nozomu Yoshida</a> <small style="font-size: 0.6em;">/ Blog</small></h1>
+            <h1><a href="https://nozomuyoshida.com/blog/" style="color: #333;">Nozomu Yoshida's Blog</a></h1>
         </div>
     </div>
 </header>

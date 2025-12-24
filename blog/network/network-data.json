@@ -8,20 +8,6 @@
       "size": 23232
     },
     {
-      "id": "2025-11-23-coffee-brewing",
-      "title": "The Art of Pour-Over Coffee",
-      "url": "/blog/2025-11-23-coffee-brewing.html",
-      "group": "Lifestyle",
-      "size": 513
-    },
-    {
-      "id": "2025-11-22-google-cloud-vertex-ai",
-      "title": "Accelerating AI with Google Cloud Vertex AI",
-      "url": "/blog/2025-11-22-google-cloud-vertex-ai.html",
-      "group": "Technology",
-      "size": 695
-    },
-    {
       "id": "2025-11-21-hci-research-trends",
       "title": "Trends in HCI Research 2025",
       "url": "/blog/2025-11-21-hci-research-trends.html",
@@ -29,59 +15,18 @@
       "size": 819
     },
     {
-      "id": "2025-11-21-new-post",
-      "title": "My New Post",
-      "url": "/blog/2025-11-21-new-post.html",
-      "group": "General",
-      "size": 199
-    },
-    {
       "id": "2025-11-20-self-introduction",
       "title": "Self Introduction",
       "url": "/blog/2025-11-20-self-introduction.html",
       "group": "Profile",
       "size": 1883
-    },
-    {
-      "id": "2023-11-20-test",
-      "title": "Welcome to My Blog",
-      "url": "/blog/2023-11-20-test.html",
-      "group": "General",
-      "size": 286
-    },
-    {
-      "id": "2023-11-20-welcome",
-      "title": "Welcome to My Blog",
-      "url": "/blog/2023-11-20-welcome.html",
-      "group": "General",
-      "size": 286
     }
   ],
   "links": [
     {
-      "source": "2025-11-22-google-cloud-vertex-ai",
-      "target": "2025-11-20-self-introduction",
-      "value": 0.06493506493506493
-    },
-    {
       "source": "2025-11-21-hci-research-trends",
       "target": "2025-11-20-self-introduction",
       "value": 0.08227848101265822
-    },
-    {
-      "source": "2025-11-21-new-post",
-      "target": "2023-11-20-test",
-      "value": 0.17142857142857143
-    },
-    {
-      "source": "2025-11-21-new-post",
-      "target": "2023-11-20-welcome",
-      "value": 0.17142857142857143
-    },
-    {
-      "source": "2023-11-20-test",
-      "target": "2023-11-20-welcome",
-      "value": 1
     }
   ]
 }
