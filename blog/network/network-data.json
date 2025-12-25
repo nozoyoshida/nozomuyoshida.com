@@ -5,28 +5,36 @@
       "title": "【DR】生成AI時代における技術実装と顧客接点の再定義：FDE、客先常駐SE、Google CE、AWS SAの構造的比較と将来的展望",
       "url": "/blog/2025-12-24-ce_fde_sa_se_comparison.html",
       "group": "Career",
-      "size": 23232
+      "size": 23232,
+      "pw": 1,
+      "so": 0
     },
     {
       "id": "2025-12-24-gcp_ce_vs_openai_fde",
       "title": "【DR】生成AI時代における技術デリバリー職の構造的変容：OpenAI Forward Deployed Engineer と Google Cloud Customer Engineer の包括的比較調査報告書",
       "url": "/blog/2025-12-24-gcp_ce_vs_openai_fde.html",
       "group": "Career",
-      "size": 25105
+      "size": 25105,
+      "pw": 1,
+      "so": 1
     },
     {
       "id": "2025-11-21-hci-research-trends",
       "title": "Trends in HCI Research 2025",
       "url": "/blog/2025-11-21-hci-research-trends.html",
       "group": "Research",
-      "size": 819
+      "size": 819,
+      "pw": 0,
+      "so": 0
     },
     {
       "id": "2025-11-20-self-introduction",
       "title": "Self Introduction",
       "url": "/blog/2025-11-20-self-introduction.html",
       "group": "Profile",
-      "size": 1883
+      "size": 1883,
+      "pw": 1,
+      "so": 1
     }
   ],
   "links": [

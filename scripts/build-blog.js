@@ -194,13 +194,46 @@ function calculateSimilarity(tokens1, tokens2) {
     return intersection.size / union.size; // Jaccard similarity for simplicity
 }
 
-const nodes = posts.map((post, index) => ({
-    id: post.slug,
-    title: post.title,
-    url: `/blog/${post.slug}.html`,
-    group: post.category || 'General',
-    size: post.body.length // Use markdown body length
-}));
+// Compute axis scores for each post to map onto a 2D conceptual space:
+// - pw: private (-1) -> work (+1) (left - right)
+// - so: subjective (-1) -> objective (+1) (top - bottom)
+function computeAxisScores(htmlText) {
+    const text = htmlText.replace(/<[^>]*>/g, '').toLowerCase();
+
+    const privateWords = ['i', 'me', 'my', 'personal', 'diary', '日記', '自己紹介', '私', '僕', 'わたし'];
+    const workWords = ['project', 'research', 'study', 'method', 'result', 'career', 'customer', 'gcp', 'openai', 'aws', 'work', 'job', '仕事', '研究'];
+
+    const subjectiveWords = ['i think', 'i feel', 'opinion', 'suggest', 'believe', 'should', 'personal', '感想', '思う', '感じ'];
+    const objectiveWords = ['study', 'results', 'data', 'experiment', 'paper', 'reference', 'method', 'analysis', '調査', '結果', 'データ'];
+
+    const tokens = getTokens(text);
+
+    const countMatches = (list) => tokens.reduce((sum, t) => sum + (list.includes(t) ? 1 : 0), 0);
+
+    const p = countMatches(privateWords);
+    const w = countMatches(workWords);
+    const s = countMatches(subjectiveWords);
+    const o = countMatches(objectiveWords);
+
+    // Normalize to -1..1. If no matches, default to 0.
+    const pw = (p + w) === 0 ? 0 : (w - p) / (w + p);
+    const so = (s + o) === 0 ? 0 : (o - s) / (o + s);
+
+    return { pw, so };
+}
+
+const nodes = posts.map((post, index) => {
+    const { pw, so } = computeAxisScores(post.html || post.body);
+    return {
+        id: post.slug,
+        title: post.title,
+        url: `/blog/${post.slug}.html`,
+        group: post.category || 'General',
+        size: post.body.length, // Use markdown body length
+        pw, // private (-1) -> work (+1)
+        so  // subjective (-1) -> objective (+1)
+    };
+});
 
 const links = [];
 for (let i = 0; i < posts.length; i++) {

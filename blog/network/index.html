@@ -286,6 +286,34 @@
 
         d3.json("network-data.json").then(function (graph) {
 
+            // Axis mapping (pw: private -> work, so: subjective -> objective)
+            const margin = 80;
+            const xScale = d3.scaleLinear().domain([-1, 1]).range([margin, width - margin]);
+            const yScale = d3.scaleLinear().domain([-1, 1]).range([margin, height - margin]);
+
+            // Draw axis crosshair (subtle)
+            container.append("line")
+                .attr("class", "axis-line")
+                .attr("x1", xScale(0)).attr("x2", xScale(0))
+                .attr("y1", yScale(-1)).attr("y2", yScale(1))
+                .style("stroke", "#eee").style("stroke-width", 1);
+
+            container.append("line")
+                .attr("class", "axis-line")
+                .attr("x1", xScale(-1)).attr("x2", xScale(1))
+                .attr("y1", yScale(0)).attr("y2", yScale(0))
+                .style("stroke", "#eee").style("stroke-width", 1);
+
+            // Axis labels
+            container.append("text").attr("x", xScale(-1) + 6).attr("y", yScale(0) - 10).text("Private").attr("fill", "#999").attr("font-size", "12px");
+            container.append("text").attr("x", xScale(1) - 6).attr("y", yScale(0) - 10).text("Work").attr("fill", "#999").attr("font-size", "12px").attr("text-anchor", "end");
+            container.append("text").attr("x", xScale(0) + 8).attr("y", yScale(-1) + 16).text("Subjective").attr("fill", "#999").attr("font-size", "12px");
+            container.append("text").attr("x", xScale(0) + 8).attr("y", yScale(1) - 6).text("Objective").attr("fill", "#999").attr("font-size", "12px");
+
+            // Apply x/y forces to position nodes on the axes
+            simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.85));
+            simulation.force("y", d3.forceY(d => yScale(d.so)).strength(0.85));
+
             // Calculate node degrees for sizing
             const nodeDegree = {};
             graph.links.forEach(link => {
@@ -367,9 +395,9 @@
                     .classed("active", true)
                     .classed("dimmed", false);
 
-                // Show tooltip
+                // Show tooltip (include axis scores)
                 tooltip.style("opacity", 1)
-                    .html(`<h3>${d.title}</h3><p>Click to read article</p>`)
+                    .html(`<h3>${d.title}</h3><p>Click to read article</p><p style="margin-top:6px;font-size:11px;color:#666;">Private ↔ Work: ${d.pw ? d.pw.toFixed(2) : '0.00'}<br>Subjective ↔ Objective: ${d.so ? d.so.toFixed(2) : '0.00'}</p>`)
                     .style("left", (event.pageX + 20) + "px")
                     .style("top", (event.pageY - 20) + "px");
             }
