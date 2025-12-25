@@ -979,6 +979,12 @@ to {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
+  /* Prevent unwanted horizontal scrolling on small screens */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
 }
 /*================================================================
   #FIX - print
