@@ -6,8 +6,8 @@
       "url": "/blog/2025-12-24-ce_fde_sa_se_comparison.html",
       "group": "Career",
       "size": 23232,
-      "pw": 1,
-      "so": 1
+      "pw": 0.8,
+      "so": 0.8
     },
     {
       "id": "2025-12-24-gcp_ce_vs_openai_fde",
@@ -15,8 +15,8 @@
       "url": "/blog/2025-12-24-gcp_ce_vs_openai_fde.html",
       "group": "Career",
       "size": 25105,
-      "pw": 1,
-      "so": 1
+      "pw": 0.8,
+      "so": 0.8
     },
     {
       "id": "2025-11-21-hci-research-trends",
@@ -33,8 +33,8 @@
       "url": "/blog/2025-11-20-self-introduction.html",
       "group": "Profile",
       "size": 1883,
-      "pw": -1,
-      "so": -1
+      "pw": -0.8,
+      "so": -0.8
     }
   ],
   "links": [
