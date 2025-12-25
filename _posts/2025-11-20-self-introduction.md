@@ -2,8 +2,8 @@
 title: Self Introduction
 date: 2025-11-20
 category: Profile
-pw: -1
-so: -1
+pw: -0.8
+so: -0.8
 ---
 
 ## M.S. in Informatics / Researcher / Engineer

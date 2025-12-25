@@ -2,8 +2,8 @@
 title: 【DR】生成AI時代における技術デリバリー職の構造的変容：OpenAI Forward Deployed Engineer と Google Cloud Customer Engineer の包括的比較調査報告書
 date: 2025-12-24
 category: Career
-pw: 1
-so: 1
+pw: 0.8
+so: 0.8
 ---
 
 ## **1\. エグゼクティブサマリー**
