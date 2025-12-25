@@ -156,10 +156,10 @@
             border: 1px solid #eee;
             padding: 12px;
             border-radius: 3px;
-            pointer-events: none;
+            pointer-events: auto; /* allow clicking inside tooltip */
             opacity: 0;
             transition: opacity 0.2s;
-            max-width: 250px;
+            max-width: 320px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             color: #333;
             z-index: 20;
@@ -178,6 +178,31 @@
             font-size: 11px;
             line-height: 1.4;
             color: #666;
+        }
+
+        /* Read button inside tooltip */
+        .tooltip-read-btn {
+            display:inline-block;
+            margin-top:10px;
+            padding:8px 12px;
+            background:var(--accent-color);
+            color:#fff;
+            text-decoration:none;
+            border-radius:3px;
+            font-weight:600;
+            font-size:13px;
+        }
+
+        .tooltip-close {
+            display:inline-block;
+            margin-left:8px;
+            padding:8px 10px;
+            background:#fff;
+            border:1px solid #ddd;
+            color:#444;
+            border-radius:3px;
+            font-weight:600;
+            font-size:13px;
         }
 
         /* Graph Styles */
@@ -280,6 +305,45 @@
 
         const tooltip = d3.select("#tooltip");
 
+        // Tooltip pinning state and helpers
+        let pinnedNodeId = null;
+
+        function showTooltip(d, event, pin = false) {
+            const pw = (typeof d.pw !== 'undefined') ? Number(d.pw).toFixed(2) : '0.00';
+            const so = (typeof d.so !== 'undefined') ? Number(d.so).toFixed(2) : '0.00';
+
+            tooltip.html(
+                `<h3>${d.title}</h3>` +
+                `<p style="margin-top:6px;font-size:12px;color:#666;">Private ↔ Work: ${pw}<br>Subjective ↔ Objective: ${so}</p>` +
+                `<div style="margin-top:10px;"><a class="tooltip-read-btn" href="${d.url}">Read article</a><button class="tooltip-close" id="tooltip-close">Close</button></div>`
+            );
+
+            tooltip.style("left", (event.pageX + 20) + "px").style("top", (event.pageY - 20) + "px");
+            tooltip.style("opacity", 1);
+
+            if (pin) {
+                pinnedNodeId = d.id;
+                // Close button
+                setTimeout(() => {
+                    const closeBtn = document.getElementById('tooltip-close');
+                    if (closeBtn) closeBtn.addEventListener('click', () => { pinnedNodeId = null; tooltip.style('opacity', 0); });
+                }, 0);
+            }
+        }
+
+        function hideTooltip(force = false) {
+            if (pinnedNodeId && !force) return;
+            tooltip.style('opacity', 0);
+        }
+
+        // Click outside hides pinned tooltip
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest || (!e.target.closest('.node') && !e.target.closest('#tooltip'))) {
+                pinnedNodeId = null;
+                tooltip.style('opacity', 0);
+            }
+        });
+
         // Scale for node size based on article length
         // Further adjusted range to minimize variance: 12px to 16px radius
         const sizeScale = d3.scaleSqrt().range([12, 16]);
@@ -338,9 +402,9 @@
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended))
-                .on("click", (event, d) => window.location.href = d.url)
-                .on("mouseover", mouseover)
-                .on("mouseout", mouseout);
+                .on("click", (event, d) => { event.stopPropagation(); if (pinnedNodeId === d.id) { pinnedNodeId = null; hideTooltip(true); } else { showTooltip(d, event, true); } })
+                .on("mouseover", (event, d) => { showTooltip(d, event, false); mouseover(event, d); })
+                .on("mouseout", (event, d) => { mouseout(event, d); hideTooltip(false); });
 
             // Color scale for categories
             const categories = Array.from(new Set(graph.nodes.map(d => d.group))).sort();
@@ -409,6 +473,7 @@
         });
 
         function dragstarted(event, d) {
+            pinnedNodeId = null; hideTooltip(true);
             if (!event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x;
             d.fy = d.y;
