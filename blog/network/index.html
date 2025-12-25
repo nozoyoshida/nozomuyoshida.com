@@ -291,24 +291,24 @@
             const xScale = d3.scaleLinear().domain([-1, 1]).range([margin, width - margin]);
             const yScale = d3.scaleLinear().domain([-1, 1]).range([margin, height - margin]);
 
-            // Draw axis crosshair (subtle)
-            container.append("line")
-                .attr("class", "axis-line")
+            // Draw axis crosshair (subtle) and keep references for dynamic resizing
+            const axisV = container.append("line")
+                .attr("class", "axis-line axis-vertical")
                 .attr("x1", xScale(0)).attr("x2", xScale(0))
                 .attr("y1", yScale(-1)).attr("y2", yScale(1))
                 .style("stroke", "#eee").style("stroke-width", 1);
 
-            container.append("line")
-                .attr("class", "axis-line")
+            const axisH = container.append("line")
+                .attr("class", "axis-line axis-horizontal")
                 .attr("x1", xScale(-1)).attr("x2", xScale(1))
                 .attr("y1", yScale(0)).attr("y2", yScale(0))
                 .style("stroke", "#eee").style("stroke-width", 1);
 
-            // Axis labels
-            container.append("text").attr("x", xScale(-1) + 6).attr("y", yScale(0) - 10).text("Private").attr("fill", "#999").attr("font-size", "12px");
-            container.append("text").attr("x", xScale(1) - 6).attr("y", yScale(0) - 10).text("Work").attr("fill", "#999").attr("font-size", "12px").attr("text-anchor", "end");
-            container.append("text").attr("x", xScale(0) + 8).attr("y", yScale(-1) + 16).text("Subjective").attr("fill", "#999").attr("font-size", "12px");
-            container.append("text").attr("x", xScale(0) + 8).attr("y", yScale(1) - 6).text("Objective").attr("fill", "#999").attr("font-size", "12px");
+            // Axis labels (give classes for updating positions on resize)
+            const labelLeft = container.append("text").attr("class", "axis-label axis-left").attr("x", xScale(-1) + 6).attr("y", yScale(0) - 10).text("Private").attr("fill", "#999").attr("font-size", "12px");
+            const labelRight = container.append("text").attr("class", "axis-label axis-right").attr("x", xScale(1) - 6).attr("y", yScale(0) - 10).text("Work").attr("fill", "#999").attr("font-size", "12px").attr("text-anchor", "end");
+            const labelTop = container.append("text").attr("class", "axis-label axis-top").attr("x", xScale(0) + 8).attr("y", yScale(-1) + 16).text("Subjective").attr("fill", "#999").attr("font-size", "12px");
+            const labelBottom = container.append("text").attr("class", "axis-label axis-bottom").attr("x", xScale(0) + 8).attr("y", yScale(1) - 6).text("Objective").attr("fill", "#999").attr("font-size", "12px");
 
             // Apply x/y forces to position nodes on the axes
             simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.85));
@@ -426,8 +426,36 @@
         }
 
         window.addEventListener('resize', () => {
-            svg.attr("width", window.innerWidth).attr("height", window.innerHeight);
-            simulation.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
+            // Recompute sizes
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            svg.attr("width", width).attr("height", height);
+
+            // Update scale ranges
+            xScale.range([margin, width - margin]);
+            yScale.range([margin, height - margin]);
+
+            // Update axis visuals
+            container.select('.axis-vertical')
+                .attr('x1', xScale(0)).attr('x2', xScale(0))
+                .attr('y1', yScale(-1)).attr('y2', yScale(1));
+
+            container.select('.axis-horizontal')
+                .attr('x1', xScale(-1)).attr('x2', xScale(1))
+                .attr('y1', yScale(0)).attr('y2', yScale(0));
+
+            container.select('.axis-left').attr('x', xScale(-1) + 6).attr('y', yScale(0) - 10);
+            container.select('.axis-right').attr('x', xScale(1) - 6).attr('y', yScale(0) - 10);
+            container.select('.axis-top').attr('x', xScale(0) + 8).attr('y', yScale(-1) + 16);
+            container.select('.axis-bottom').attr('x', xScale(0) + 8).attr('y', yScale(1) - 6);
+
+            // Update simulation center and force targets
+            simulation.force("center", d3.forceCenter(width / 2, height / 2));
+            simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.85));
+            simulation.force("y", d3.forceY(d => yScale(d.so)).strength(0.85));
+
+            // Restart simulation to settle nodes in new positions
             simulation.alpha(0.3).restart();
         });
     </script>
