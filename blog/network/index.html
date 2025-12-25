@@ -290,8 +290,8 @@
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        let width = window.innerWidth;
+        let height = window.innerHeight;
 
         const svg = d3.select("#network").append("svg")
             .attr("width", width)
@@ -374,12 +374,59 @@
         // Further adjusted range to minimize variance: 12px to 16px radius
         const sizeScale = d3.scaleSqrt().range([12, 16]);
 
+        // Axis helpers declared in outer scope so resize handler can access them
+        const margin = 80;
+        let xScale;
+        let yScale;
+        let graphData = null; // store loaded graph for resize updates
+
+        // Compute deterministic offsets for nodes that share identical (pw, so)
+        function computeOffsets(graph) {
+            const groups = {};
+            graph.nodes.forEach(d => {
+                const key = `${d.pw}_${d.so}`;
+                if (!groups[key]) groups[key] = [];
+                groups[key].push(d);
+            });
+
+            Object.values(groups).forEach(group => {
+                if (group.length === 1) {
+                    group[0]._ox = 0; group[0]._oy = 0;
+                    return;
+                }
+                // Deterministic order
+                group.sort((a, b) => a.id.localeCompare(b.id));
+                const maxDiameter = d3.max(group, n => (sizeScale(n.size || 100) * 2)) || 30;
+                const gap = maxDiameter + 6; // pixels between rings
+                const golden = 2.399963229728653; // golden angle (radians)
+                for (let i = 0; i < group.length; i++) {
+                    // avoid r=0 for the first item: use sqrt(i+1) so all nodes get nonzero offset
+                    const r = gap * Math.sqrt(i + 1);
+                    const angle = i * golden;
+                    group[i]._ox = Math.cos(angle) * r;
+                    group[i]._oy = Math.sin(angle) * r;
+                }
+            });
+        }
+
         d3.json("network-data.json").then(function (graph) {
 
             // Axis mapping (pw: private -> work, so: subjective -> objective)
-            const margin = 80;
-            const xScale = d3.scaleLinear().domain([-1, 1]).range([margin, width - margin]);
-            const yScale = d3.scaleLinear().domain([-1, 1]).range([margin, height - margin]);
+            // margin and scales declared outside so they can be updated on resize
+            xScale = d3.scaleLinear().domain([-1, 1]).range([margin, width - margin]);
+            yScale = d3.scaleLinear().domain([-1, 1]).range([margin, height - margin]);
+
+            // Ensure pw/so are numeric and set initial positions so nodes start at the expected coordinates
+            graph.nodes.forEach(d => {
+                d.pw = (typeof d.pw !== 'undefined' && !isNaN(+d.pw)) ? +d.pw : 0;
+                d.so = (typeof d.so !== 'undefined' && !isNaN(+d.so)) ? +d.so : 0;
+                d.x = xScale(d.pw);
+                d.y = yScale(d.so);
+                d._ox = 0; d._oy = 0; // default offsets
+            });
+
+            // Disable force simulation: nodes are fixed at (pw, so) and should not move
+            simulation.stop(); // no physics
 
             // Draw axis crosshair (subtle) and keep references for dynamic resizing
             const axisV = container.append("line")
@@ -401,8 +448,8 @@
             const labelBottom = container.append("text").attr("class", "axis-label axis-bottom").attr("x", xScale(0) + 8).attr("y", yScale(1) - 6).text("Objective").attr("fill", "#999").attr("font-size", "12px");
 
             // Apply x/y forces to position nodes on the axes
-            simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.85));
-            simulation.force("y", d3.forceY(d => yScale(d.so)).strength(0.85));
+            simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.95));
+            simulation.force("y", d3.forceY(d => yScale(d.so)).strength(0.95));
 
             // Calculate node degrees for sizing
             const nodeDegree = {};
@@ -424,10 +471,6 @@
                 .data(graph.nodes)
                 .enter().append("g")
                 .attr("class", "node")
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended))
                 .on("click", (event, d) => { event.stopPropagation(); if (pinnedNodeId === d.id) { pinnedNodeId = null; hideTooltip(true); } else { showTooltip(d, event, true); } })
                 .on("mouseover", (event, d) => { mouseover(event, d); })
                 .on("mouseout", (event, d) => { mouseout(event, d); });
@@ -453,17 +496,17 @@
                 .attr("dy", ".35em")
                 .text(d => d.title);
 
-            simulation
-                .nodes(graph.nodes)
-                .on("tick", ticked);
+            // Compute offsets for overlapping nodes and store graph for later resize handling
+            computeOffsets(graph);
+            graphData = graph;
 
-            simulation.force("link")
-                .links(graph.links);
+            // Initial render using offsets
+            ticked(); // initial render based on pw/so + offsets
+
 
             function ticked() {
-                // Only update node positions, no links to update
-                node
-                    .attr("transform", d => `translate(${d.x},${d.y})`);
+                // Deterministic positions based on pw/so plus precomputed offsets
+                node.attr("transform", d => `translate(${xScale(d.pw) + (d._ox || 0)},${yScale(d.so) + (d._oy || 0)})`);
             }
 
             function mouseover(event, d) {
@@ -494,23 +537,7 @@
             }
         });
 
-        function dragstarted(event, d) {
-            pinnedNodeId = null; hideTooltip(true);
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-
-        function dragged(event, d) {
-            d.fx = event.x;
-            d.fy = event.y;
-        }
-
-        function dragended(event, d) {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
+        // Drag handlers removed: nodes are fixed and not draggable.
 
         window.addEventListener('resize', () => {
             // Recompute sizes
@@ -537,13 +564,12 @@
             container.select('.axis-top').attr('x', xScale(0) + 8).attr('y', yScale(-1) + 16);
             container.select('.axis-bottom').attr('x', xScale(0) + 8).attr('y', yScale(1) - 6);
 
-            // Update simulation center and force targets
-            simulation.force("center", d3.forceCenter(width / 2, height / 2));
-            simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.85));
-            simulation.force("y", d3.forceY(d => yScale(d.so)).strength(0.85));
+            // For fixed layout, recompute offsets (if needed) and update node positions directly
+            if (graphData) computeOffsets(graphData);
+            container.selectAll('.node').attr("transform", d => `translate(${xScale(d.pw) + (d._ox || 0)},${yScale(d.so) + (d._oy || 0)})`);
 
-            // Restart simulation to settle nodes in new positions
-            simulation.alpha(0.3).restart();
+            // Update center force if any visuals depend on it (kept for completeness)
+            simulation.force("center", d3.forceCenter(width / 2, height / 2));
         });
     </script>
 
