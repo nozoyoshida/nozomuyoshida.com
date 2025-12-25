@@ -81,8 +81,19 @@ npm run build:blog
 1. `_posts/` からすべての Markdown ファイルを読み込む。
 2. `blog/` に HTML ファイルを生成する。
 3. `blog/index.html` を記事リストで更新する。
-4. ネットワーク可視化用のデータを生成する。
+4. ネットワーク可視化用のデータを生成する（`blog/network/network-data.json`）。
 
-## ライセンス
+### 軸ベースのネットワーク可視化（pw / so）
 
-このプロジェクトは [Classic CV](https://github.com/jojoee/classic-cv) テンプレートに基づいており、MIT ライセンスの下で公開されています。
+- 追加の Frontmatter フィールドとして `pw` と `so` を指定できます（任意）。
+  - `pw`: Private (-1) ←→ Work (+1)（左右軸）
+  - `so`: Subjective (-1) ←→ Objective (+1)（上下軸）
+  - 値の範囲は **-1 から +1** です（ビルド時に自動でクランプされます）。
+
+- デフォルトではビルドスクリプトが記事本文を解析して簡易的なヒューリスティックで `pw` / `so` を算出しますが、**front-matter に数値を設定すると手動値が優先**されます。
+
+- ネットワークの可視化ページ: `blog/network/index.html`（軸の表示、ツールチップにスコアを表示します）。
+
+- ヒューリスティックの調整は `scripts/build-blog.js`（`computeAxisScores`）で行えます。より高精度なスコアリング（TF-IDF、埋め込み等）を導入することも可能です。
+
+（補足）フロントマターでの手動指定は、特に主観的評価や個人的な記事の位置づけを正確に反映したい場合に便利です。
