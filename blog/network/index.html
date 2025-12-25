@@ -403,8 +403,8 @@
                     .on("drag", dragged)
                     .on("end", dragended))
                 .on("click", (event, d) => { event.stopPropagation(); if (pinnedNodeId === d.id) { pinnedNodeId = null; hideTooltip(true); } else { showTooltip(d, event, true); } })
-                .on("mouseover", (event, d) => { showTooltip(d, event, false); mouseover(event, d); })
-                .on("mouseout", (event, d) => { mouseout(event, d); hideTooltip(false); });
+                .on("mouseover", (event, d) => { mouseover(event, d); })
+                .on("mouseout", (event, d) => { mouseout(event, d); });
 
             // Color scale for categories
             const categories = Array.from(new Set(graph.nodes.map(d => d.group))).sort();
@@ -459,16 +459,12 @@
                     .classed("active", true)
                     .classed("dimmed", false);
 
-                // Show tooltip (include axis scores)
-                tooltip.style("opacity", 1)
-                    .html(`<h3>${d.title}</h3><p>Click to read article</p><p style="margin-top:6px;font-size:11px;color:#666;">Private ↔ Work: ${d.pw ? d.pw.toFixed(2) : '0.00'}<br>Subjective ↔ Objective: ${d.so ? d.so.toFixed(2) : '0.00'}</p>`)
-                    .style("left", (event.pageX + 20) + "px")
-                    .style("top", (event.pageY - 20) + "px");
+                // Note: Tooltip is not shown on hover. Click to open details.
             }
 
             function mouseout() {
                 node.classed("dimmed", false).classed("active", false);
-                tooltip.style("opacity", 0);
+                // Do not hide tooltip here; tooltip visibility is controlled by click (pin) and document click.
             }
         });
 
