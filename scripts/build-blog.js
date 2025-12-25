@@ -222,8 +222,15 @@ function computeAxisScores(htmlText) {
     return { pw, so };
 }
 
+const clamp = (v) => Math.max(-1, Math.min(1, v));
+
 const nodes = posts.map((post, index) => {
-    const { pw, so } = computeAxisScores(post.html || post.body);
+    const { pw: computedPw, so: computedSo } = computeAxisScores(post.html || post.body);
+
+    // Prefer explicit front-matter overrides if present, otherwise use computed values
+    const pw = typeof post.pw !== 'undefined' ? clamp(Number(post.pw)) : clamp(computedPw);
+    const so = typeof post.so !== 'undefined' ? clamp(Number(post.so)) : clamp(computedSo);
+
     return {
         id: post.slug,
         title: post.title,

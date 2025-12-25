@@ -7,7 +7,7 @@
       "group": "Career",
       "size": 23232,
       "pw": 1,
-      "so": 0
+      "so": 1
     },
     {
       "id": "2025-12-24-gcp_ce_vs_openai_fde",
@@ -24,8 +24,8 @@
       "url": "/blog/2025-11-21-hci-research-trends.html",
       "group": "Research",
       "size": 819,
-      "pw": 0,
-      "so": 0
+      "pw": 0.8,
+      "so": 0.4
     },
     {
       "id": "2025-11-20-self-introduction",
@@ -33,8 +33,8 @@
       "url": "/blog/2025-11-20-self-introduction.html",
       "group": "Profile",
       "size": 1883,
-      "pw": 1,
-      "so": 1
+      "pw": -1,
+      "so": -1
     }
   ],
   "links": [

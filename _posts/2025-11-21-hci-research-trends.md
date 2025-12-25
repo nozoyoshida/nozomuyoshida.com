@@ -2,6 +2,8 @@
 title: Trends in HCI Research 2025
 date: 2025-11-21
 category: Research
+pw: 0.8
+so: 0.4
 ---
 
 ## The Evolution of Accessibility
