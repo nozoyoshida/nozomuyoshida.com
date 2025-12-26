@@ -34,7 +34,7 @@ const blogHeader = `
 const blogFooter = `
 <footer id="footer">
     <div class="copyright">
-        <p>&copy; 2016–${new Date().getFullYear()} Nozomu Yoshida</p>
+        <p>&copy; 2016–${new Date().getFullYear()} <a href="https://nozomuyoshida.com">Nozomu Yoshida</a></p>
     </div>
 </footer>
 `;
