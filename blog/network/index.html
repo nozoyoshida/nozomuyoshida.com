@@ -228,19 +228,20 @@
 
         .node text {
             font-family: 'Open Sans', sans-serif;
-            font-size: 10px;
+            font-size: 11px;
             pointer-events: none;
-            opacity: 0;
+            opacity: 1;
             fill: #555;
-            transition: all 0.3s;
             font-weight: 600;
+            text-anchor: middle;
+            dominant-baseline: hanging; /* position text below the node */
         }
 
-        .node:hover text {
-            opacity: 1;
-            transform: translate(12px, -4px);
-            font-size: 11px;
-            fill: #000;
+        /* Keep hover subtle effect on circle only; labels are always visible */
+        .node:hover circle {
+            stroke: var(--accent-color);
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
         }
 
         /* Highlight State */
@@ -318,13 +319,10 @@
         let pinnedNodeId = null;
 
         function showTooltip(d, event, pin = false) {
-            const pw = (typeof d.pw !== 'undefined') ? Number(d.pw).toFixed(2) : '0.00';
-            const so = (typeof d.so !== 'undefined') ? Number(d.so).toFixed(2) : '0.00';
-
+            // Simplified tooltip: only title and read button per spec
             tooltip.html(
-                `<h3>${d.title}</h3>` +
-                `<p style="margin-top:6px;font-size:12px;color:#666;">Private ↔ Work: ${pw}<br>Subjective ↔ Objective: ${so}</p>` +
-                `<div style="margin-top:10px;"><a class="tooltip-read-btn" href="${d.url}">Read article</a><button class="tooltip-close" id="tooltip-close">Close</button></div>`
+                `<h3 style="margin:0 0 6px 0;">${d.title}</h3>` +
+                `<div style="margin-top:8px;"><a class="tooltip-read-btn" href="${d.url}">Read article</a></div>`
             );
 
             tooltip.style("left", (event.pageX + 20) + "px").style("top", (event.pageY - 20) + "px");
@@ -332,11 +330,6 @@
 
             if (pin) {
                 pinnedNodeId = d.id;
-                // Close button
-                setTimeout(() => {
-                    const closeBtn = document.getElementById('tooltip-close');
-                    if (closeBtn) closeBtn.addEventListener('click', () => { pinnedNodeId = null; tooltip.style('opacity', 0); });
-                }, 0);
             }
         }
 
@@ -492,9 +485,10 @@
                 .attr("fill", d => color(d.group));
 
             node.append("text")
-                .attr("dx", d => sizeScale(d.size || 1000) + 5)
-                .attr("dy", ".35em")
-                .text(d => d.title);
+                .attr("dx", 0)
+                .attr("dy", d => (sizeScale(d.size || 1000) + 6)) // place below the circle
+                .attr("text-anchor", "middle")
+                .text(d => (d.title && d.title.length > 15) ? d.title.slice(0, 15) : d.title);
 
             // Compute offsets for overlapping nodes and store graph for later resize handling
             computeOffsets(graph);

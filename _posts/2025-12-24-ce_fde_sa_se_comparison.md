@@ -1,5 +1,5 @@
 ---
-title: 【DR】生成AI時代における技術実装と顧客接点の再定義：FDE、客先常駐SE、Google CE、AWS SAの構造的比較と将来的展望
+title: 【DR】FDE、客先常駐SE、Google CE、AWS SAの構造的比較と将来的展望
 date: 2025-12-24
 category: Career
 pw: 0.8
