@@ -1,6 +1,15 @@
 {
   "nodes": [
     {
+      "id": "2025-12-26-clock-mechanism",
+      "title": "【DR】手巻き式機械時計の全貌：人間と機械のエネルギー授受における工学的・哲学的考察",
+      "url": "/blog/2025-12-26-clock-mechanism.html",
+      "group": "Hobby",
+      "size": 27195,
+      "pw": -0.8,
+      "so": 0.8
+    },
+    {
       "id": "2025-12-24-ce_fde_sa_se_comparison",
       "title": "【DR】FDE、客先常駐SE、Google CE、AWS SAの構造的比較と将来的展望",
       "url": "/blog/2025-12-24-ce_fde_sa_se_comparison.html",
