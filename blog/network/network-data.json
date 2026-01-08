@@ -1,6 +1,15 @@
 {
   "nodes": [
     {
+      "id": "2026-01-08-one-trillion-yen",
+      "title": "一兆円。",
+      "url": "/blog/2026-01-08-one-trillion-yen.html",
+      "group": "Essay",
+      "size": 3505,
+      "pw": 0,
+      "so": -0.8
+    },
+    {
       "id": "2025-12-26-clock-mechanism",
       "title": "【DR】手巻き式機械時計の全貌：人間と機械のエネルギー授受における工学的・哲学的考察",
       "url": "/blog/2025-12-26-clock-mechanism.html",
