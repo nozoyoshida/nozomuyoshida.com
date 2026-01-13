@@ -5,7 +5,7 @@
       "title": "Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略",
       "url": "/blog/2026-01-15-gemini-long-video-tips.html",
       "group": "Research",
-      "size": 2586,
+      "size": 2769,
       "pw": 0,
       "so": 1
     },
@@ -95,7 +95,7 @@
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2026-01-08-one-trillion-yen",
-      "value": 0.05555555555555555
+      "value": 0.05405405405405406
     },
     {
       "source": "2025-12-24-ce_fde_sa_se_comparison",

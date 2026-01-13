@@ -27,12 +27,18 @@ Google Cloudのドキュメントによれば、現状のVertex AI Gemini APIに
 
 #### A: 5分程度のオーバーラップを設ける
 境界付近の文脈を保持するため、セグメント間に重なりを持たせることが不可欠です。
-- **1処理目**: 0分 〜 45分
-- **2処理目**: 40分 〜 85分
+
+![][image1]
+
+- **1処理目**: 0分 〜 45分 (実際の処理: 0-45分)
+- **2処理目**: 40分 〜 85分 (実際の処理: 40-85分)
 このように、前パートの末尾5分程度を次パートの冒頭に含めることで、イベントの分断を防ぎます。
 
 #### B: 「Chain of Context」：前パートのメタデータを次パートのプロンプトに注入
-より高度な手法として、1パート目の処理で抽出されたメタデータ（サマリーなどのテキスト情報）を、2パート目のAPIコール時のプロンプトに含める手法が有効です。
+より高度な手法として、1パート目の処理で抽出されたメタデータ（サマリーなどのテキスト情報）を、2パート目のAPIコール時のプロンプトに含める方法が有効です。
+
+![][image2]
+
 動画データそのものを渡すのは重いですが、テキスト情報に圧縮して伝えることで、前パートの状況を「コンテキスト（背景知識）」としてモデルに引き継ぎ、一貫した理解が可能になります。
 
 ### 3. メタデータの抽出と統合（Map-Reduceアプローチ）
@@ -69,3 +75,6 @@ Google Cloudのドキュメントによれば、現状のVertex AI Gemini APIに
 [1] 動画理解 | Generative AI on Vertex AI | Google Cloud Documentation [https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/video-understanding](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/video-understanding)
 
 [2] Use the Gemini API for Video Analysis | Gemini API | Google for Developers [https://ai.google.dev/gemini-api/docs/video](https://ai.google.dev/gemini-api/docs/video)
+
+[image1]: ../media/blog/gemini-video-tips/overlap-strategy.png
+[image2]: ../media/blog/gemini-video-tips/context-chain.png
