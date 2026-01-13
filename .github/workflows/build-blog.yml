@@ -37,4 +37,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: auto-generate blog pages and network graph"
-          file_pattern: 'blog/ network-data.json'
+          file_pattern: 'blog/'

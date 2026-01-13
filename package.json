@@ -1,10 +1,9 @@
 {
   "name": "classic-cv",
   "version": "0.0.0",
-  "description": "FREE Classic CV / Resume HTML Template",
+  "description": "Nozomu Yoshida's Personal Website and Portfolio",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:blog": "node scripts/build-blog.js",
     "start": "npx serve ."
