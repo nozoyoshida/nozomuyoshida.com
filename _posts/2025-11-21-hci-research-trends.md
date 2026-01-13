@@ -1,6 +1,7 @@
 ---
 title: Trends in HCI Research 2025
 date: 2025-11-21
+excerpt: "2025年におけるHCI研究の最新動向。アクセシビリティ、マルチモーダル界面、AI支援による包摂的デザインの進化。"
 category: Research
 pw: 0.8
 so: 0.4

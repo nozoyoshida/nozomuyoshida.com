@@ -1,6 +1,7 @@
 ---
 title: 【DR】FDE、客先常駐SE、Google CE、AWS SAの構造的比較と将来的展望
 date: 2025-12-24
+excerpt: "FDE、SES、Google CE、AWS SAという4つの技術職種。その構造的差異とインセンティブ、キャリアの将来性を徹底比較。"
 category: Career
 pw: 0.8
 so: 0.8

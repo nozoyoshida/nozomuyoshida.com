@@ -1,6 +1,7 @@
 ---
 title: Self Introduction
 date: 2025-11-20
+excerpt: "Google Cloudのカスタマーエンジニア、吉田望の自己紹介。HCI、アクセシビリティ、教育工学の研究と開発の軌跡。"
 category: Profile
 pw: -0.8
 so: -0.8

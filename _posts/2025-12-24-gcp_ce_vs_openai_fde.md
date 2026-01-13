@@ -1,6 +1,7 @@
 ---
 title: 【DR】OpenAI Forward Deployed Engineer と Google Cloud Customer Engineer の包括的比較調査報告書
 date: 2025-12-24
+excerpt: "OpenAIのFDEとGoogle CloudのCE。AI実装の最前線で求められるデリバリーモデルと技術的深度の決定的な違い。"
 category: Career
 pw: 0.8
 so: 0.8
