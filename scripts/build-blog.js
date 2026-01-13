@@ -121,9 +121,14 @@ const posts = [];
 fs.readdirSync(POSTS_DIR).forEach(file => {
     if (path.extname(file) === '.md') {
         const fileContent = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
-        const { attributes, body } = frontMatter(fileContent);
-        const htmlContent = marked.parse(body);
+        const fm = frontMatter(fileContent);
+        const { attributes, body } = fm;
+
+        // Pre-process markdown to handle bold without requiring spaces (common in Japanese)
+        const processedBody = body.replace(/\*\*(?=\S)(.+?)(?<!\s)\*\*/g, '<strong>$1</strong>');
+        const htmlContent = marked.parse(processedBody);
         const slug = path.basename(file, '.md');
+
 
         posts.push({
             slug,
