@@ -89,7 +89,7 @@ function generatePage(title, content, isIndex = false, metadata = {}) {
         .blog-content { padding: 20px 0; }
         /* Use the homepage font and color palette */
         .blog-post { margin-bottom: 40px; font-family: 'Open Sans', sans-serif; color: #333; }
-        .blog-post h1 { font-size: 32px; margin-bottom: 10px; font-weight: 300; font-family: 'Open Sans', sans-serif; color: #333; }
+        .blog-post h1 { font-size: 32px; margin-bottom: 15px; font-weight: 300; font-family: 'Open Sans', sans-serif; color: #333; line-height: 1.4; }
         .blog-post .date { color: #999; font-size: 14px; margin-bottom: 20px; display: block; }
         .blog-post-content { font-size: 16px; line-height: 1.8; font-family: 'Open Sans', sans-serif; color: #444; }
         .blog-post-content h2 { margin-top: 30px; font-size: 20px; font-weight: 600; color: #222; }
