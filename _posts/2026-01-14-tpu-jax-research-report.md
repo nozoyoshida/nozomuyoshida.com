@@ -25,6 +25,8 @@ Googleはこの問題に対し、汎用性を犠牲にして特定のドメイ�
 
 その中心となる技術が「シストリックアレイ（Systolic Array）」である。これは、心臓が血液を送り出す「収縮（Systole）」の動作にちなんで名付けられたアーキテクチャであり、データがプロセッサ内を波のように伝播する仕組みを指す。この設計思想の違いこそが、TPUがGPUと比較して高い電力効率（Performance per Watt）を実現する根本的な理由である。
 
+![][image1]
+
 ---
 
 **第2章 TPUハードウェア・アーキテクチャの進化と詳細分析**
@@ -69,6 +71,8 @@ TPUは2015年の登場以来、急速な進化を遂げてきた。初期の推�
 * **マトリックス演算ユニット (MXU) の巨大化:** 特筆すべきは、MXUのサイズが従来の128×128から256×256へと拡張された点である。これにより、クロックあたりの演算数は4倍に増加し、ピーク演算性能（bf16）は1チップあたり918 TFLOPSに達した。これはv5eの約4.7倍の性能向上である 。  
 * **メモリと帯域の倍増:** HBM容量は32GB、帯域幅は1,600 GB/sへと倍増した。また、チップ間接続（ICI）帯域も800 GB/sに強化され、大規模分散学習における通信ボトルネックをさらに押し広げている 。  
 * **SparseCoreの進化:** 埋め込み層（Embedding）やGNN（グラフニューラルネットワーク）などの疎行列演算を加速する専用コア「SparseCore」の第3世代が搭載されている。これにより、TransformerのAttention計算だけでなく、検索やレコメンデーションといった広範なワークロードの高速化を実現している 。
+
+![][image2]
 
 ---
 
@@ -368,6 +372,8 @@ def train_epoch(state, train_ds):
 
 Googleのロードマップによれば、2025年には第7世代TPU「Ironwood (v7)」の投入が計画されている。Ironwoodは、FP8演算へのネイティブ対応と、推論ワークロードへの更なる最適化が進むと予測されている 。また、JAXエコシステムにおいても、Pallasによるカーネル開発の民主化や、量子コンピューティング（Quantum Computing）との融合など、計算のフロンティアを拡張する試みが続いている。
 
+![][image3]
+
 ### **結論**
 
 Google TPUとJAXは、もはやGoogle内部だけの秘伝の技術ではない。それは、ムーアの法則の鈍化とAIモデルの巨大化という二重の課題に対する、業界全体の標準的な解になりつつある。Pythonの柔軟性とスーパーコンピュータの性能を両立させるこのスタックを習得することは、AIエンジニアにとって、次の10年を生き抜くための最も強力な武器となるだろう。
@@ -409,6 +415,6 @@ Google TPUとJAXは、もはやGoogle内部だけの秘伝の技術ではない�
 33. Train a GPT2 model with JAX on TPU for free - Google Developers ..., accessed January 13, 2026, [https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/](https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/)  
 34. MNIST tutorial - Flax - Read the Docs, accessed January 13, 2026, [https://flax.readthedocs.io/en/stable/mnist_tutorial.html](https://flax.readthedocs.io/en/stable/mnist_tutorial.html)
 
-[image1]: /media/blog/tpu-jax/bottleneck-comparison.png
-[image2]: /media/blog/tpu-jax/tpuv6e-performance.png
-[image3]: /media/blog/tpu-jax/tpu-jax-roadmap.png
+[image1]: ../media/blog/tpu-jax/bottleneck-comparison.png
+[image2]: ../media/blog/tpu-jax/tpuv6e-performance.png
+[image3]: ../media/blog/tpu-jax/tpu-jax-roadmap.png
