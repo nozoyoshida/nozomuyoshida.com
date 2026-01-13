@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HELRNNVWJ9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-HELRNNVWJ9');
+  </script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+  <!-- prod -->
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/themes/themes.css">
+  <link rel="stylesheet" href="../css/demo.css">
+
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="/media/apple-touch-icon-precomposed" href="/media/apple-touch-icon-precomposed.png" />
+
+    <title>Google TPUとJAX入門：次世代AI開発の標準スタック | Nozomu Yoshida</title>
+    <meta name="description" content="Googleの強力なAIアクセラレータTPUと、それを最大限に引き出すJAX/XLAエコシステムについての概要。">
+    <link rel="canonical" href="https://nozomuyoshida.com/blog/2026-01-13-intro-to-tpu-jax.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://nozomuyoshida.com/blog/2026-01-13-intro-to-tpu-jax.html">
+    <meta property="og:title" content="Google TPUとJAX入門：次世代AI開発の標準スタック | Nozomu Yoshida">
+    <meta property="og:description" content="Googleの強力なAIアクセラレータTPUと、それを最大限に引き出すJAX/XLAエコシステムについての概要。">
+    <meta property="og:image" content="https://nozomuyoshida.com/media/profile/portrait_guitar.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://nozomuyoshida.com/blog/2026-01-13-intro-to-tpu-jax.html">
+    <meta property="twitter:title" content="Google TPUとJAX入門：次世代AI開発の標準スタック | Nozomu Yoshida">
+    <meta property="twitter:description" content="Googleの強力なAIアクセラレータTPUと、それを最大限に引き出すJAX/XLAエコシステムについての概要。">
+    <meta property="twitter:image" content="https://nozomuyoshida.com/media/profile/portrait_guitar.jpg">
+    <meta property="twitter:site" content="@nozoyoshida">
+
+    <style>
+        /* Blog specific overrides (matched to homepage typography) */
+        #page { margin-top: 20px; }
+        .blog-content { padding: 20px 0; }
+        /* Use the homepage font and color palette */
+        .blog-post { margin-bottom: 40px; font-family: 'Open Sans', sans-serif; color: #333; }
+        .blog-post h1 { font-size: 32px; margin-bottom: 10px; font-weight: 300; font-family: 'Open Sans', sans-serif; color: #333; }
+        .blog-post .date { color: #999; font-size: 14px; margin-bottom: 20px; display: block; }
+        .blog-post-content { font-size: 16px; line-height: 1.8; font-family: 'Open Sans', sans-serif; color: #444; }
+        .blog-post-content h2 { margin-top: 30px; font-size: 20px; font-weight: 600; color: #222; }
+        .blog-post-content h3 { margin-top: 20px; font-size: 18px; font-weight: 600; color: #222; }
+        .blog-post-content p { color: #444; }
+        .blog-post-content img { max-width: 100%; height: auto; margin: 20px 0; }
+        .back-link { margin-bottom: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+<div id="page" class="container">
+    
+<header id="header" class="header-min">
+    <div class="cv-section">
+        <div class="col-md-12">
+            <h1><a href="https://nozomuyoshida.com/blog/" style="color: #333;">Nozomu Yoshida's Blog</a></h1>
+        </div>
+    </div>
+</header>
+
+    
+    <main id="content" class="cv-section blog-content">
+        <div class="col-md-12">
+            <a href="/blog/" class="back-link">&larr; Back to Blog</a>
+            <div class="blog-post">
+                <h1>Google TPUとJAX入門：次世代AI開発の標準スタック</h1>
+                <span class="date">1/13/2026</span>
+                <div class="blog-post-content"><p>AI（人工知能）の進化は、アルゴリズムだけでなく、それを支える<strong>計算基盤（ハードウェア）</strong>と<strong>ソフトウェアスタック</strong>の進化に大きく依存しています。その中でも、Googleが開発した<strong>TPU（Tensor Processing Unit）</strong>と、近年のAI研究でデファクトスタンダードになりつつある<strong>JAX</strong>の組み合わせは、圧倒的なスケーラビリティと柔軟性を兼ね備えています。</p>
+<p>今回の記事では、2025年〜2026年にかけての最新動向を交えつつ、TPUとJAXのエコシステムについて解説します。</p>
+<h3>1. TPU：AI専用に設計されたハードウェア</h3>
+<p>TPUは、Google Cloud上で利用可能なAIワークロード特化型の集積回路（ASIC）です。</p>
+<ul>
+<li><strong>Trillium (TPU v6)</strong>: 2024年に発表され、2025年に一般公開された第6世代モデル。先代のv5eと比較して<strong>4.7倍の演算性能</strong>を誇り、Gemini 2.0の学習にも採用されています。</li>
+<li><strong>Ironwood (TPU v7)</strong>: 2025年に発表された最新世代。「推論の時代（Age of Inference）」を見据え、超大規模モデルの推論を低コスト・高効率で行うことに特化しています。</li>
+</ul>
+<p>TPUは、大規模な行列演算を高速化する「Matrix Unit (MXU)」や、疎なデータを扱う「SparseCore」を搭載しており、汎用的なGPUよりも特定のAIモデルにおいて高い電力効率とスループットを実現します。</p>
+<h3>2. JAX：高性能数値計算のための新標準</h3>
+<p>JAXは、一見するとNumPyに似たAPIを持つPythonライブラリですが、その実体は<strong>XLA（Accelerated Linear Algebra）</strong>コンパイラをバックエンドに持つ強力な計算エンジンです。</p>
+<p>JAXの核となる4つの変換機能：</p>
+<ol>
+<li><strong>jit (Just-In-Time compilation)</strong>: Python関数をコンパイルし、ハードウェア上で最適化。</li>
+<li><strong>vmap (Vectorization mapping)</strong>: 関数を自動でベクトル化し、バッチ処理を容易にする。</li>
+<li><strong>grad (Automatic differentiation)</strong>: 任意の関数から勾配を自動計算。</li>
+<li><strong>pmap (Parallel mapping)</strong>: 複数のTPU/GPUデバイスに計算を分散。</li>
+</ol>
+<p>これらを組み合わせることで、<strong>「書きやすさはPython、速度はネイティブコード」</strong>という理想的な開発環境を実現しています。</p>
+<h3>3. JAX AI Stack：広がるエコシステム</h3>
+<p>JAXそのものは低レイヤーなライブラリですが、その上に「JAX AI Stack」と呼ばれる様々な用途に応じたライブラリ群が構築されています。</p>
+<ul>
+<li><strong>Flax</strong>: ニューラルネットワーク構築のためのライブラリ。最新の<code>NNX</code> APIにより、より直感的なモデル定義が可能になりました。</li>
+<li><strong>Optax</strong>: 様々な最適化アルゴリズム（Adam, SGDなど）を提供。</li>
+<li><strong>Orbax / Grain</strong>: 大規模なチェックポイント管理やデータロードを高速化。</li>
+</ul>
+<h3>4. なぜ今、TPU/JAXなのか？</h3>
+<p>最大の理由は、<strong>「スケーラビリティの高さ」</strong>です。JAXは設計段階からマルチデバイス、マルチホストでの動作を前提としています。数千台規模のTPUクラスタを、あたかも一台の巨大なコンピュータであるかのように（<code>pjit</code>などの機能を用いて）扱うことができます。</p>
+<p>もしあなたが、最新のLLM（大規模言語モデル）の学習や、高度な科学計算に興味があるなら、TPU/JAXスタックは間違いなく<strong>最強の選択肢の一つ</strong>となるでしょう。</p>
+<hr>
+<p><strong>参照:</strong></p>
+<ul>
+<li><a href="https://cloud.google.com/tpu">Google Cloud TPU</a></li>
+<li><a href="https://github.com/google/jax">JAX GitHub Repository</a></li>
+</ul>
+</div>
+             </div>
+        </div>
+    </main>
+
+    
+<footer id="footer">
+    <div class="copyright">
+        <p>&copy; 2016–2026 <a href="https://nozomuyoshida.com">Nozomu Yoshida</a></p>
+    </div>
+</footer>
+
+</div>
+</body>
+</html>

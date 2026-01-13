@@ -10,6 +10,15 @@
       "so": 0.5
     },
     {
+      "id": "2026-01-13-intro-to-tpu-jax",
+      "title": "Google TPUとJAX入門：次世代AI開発の標準スタック",
+      "url": "/blog/2026-01-13-intro-to-tpu-jax.html",
+      "group": "Tech",
+      "size": 1769,
+      "pw": 0.8,
+      "so": 1
+    },
+    {
       "id": "2026-01-08-one-trillion-yen",
       "title": "AI 妄想小説",
       "url": "/blog/2026-01-08-one-trillion-yen.html",
