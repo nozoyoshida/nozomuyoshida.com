@@ -380,40 +380,75 @@ Google TPUとJAXは、もはやGoogle内部だけの秘伝の技術ではない�
 
 #### **Works cited**
 
-1. TPU architecture | Google Cloud Documentation, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/system-architecture-tpu-vm](https://docs.cloud.google.com/tpu/docs/system-architecture-tpu-vm)  
-2. Why the JAX AI Stack is the New Standard for Megakernel Infrastructure - Rajat Pandit, accessed January 13, 2026, [https://rajatpandit.com/business-case-for-jax/](https://rajatpandit.com/business-case-for-jax/)  
-3. Google TPU Architecture: 7 Generations Explained | Introl Blog, accessed January 13, 2026, [https://introl.com/blog/google-tpu-architecture-complete-guide-7-generations](https://introl.com/blog/google-tpu-architecture-complete-guide-7-generations)  
-4. Tensor Processing Unit - Wikipedia, accessed January 13, 2026, [https://en.wikipedia.org/wiki/Tensor_Processing_Unit](https://en.wikipedia.org/wiki/Tensor_Processing_Unit)  
-5. Google TPUs Explained: Architecture & Performance for Gemini 3 | IntuitionLabs, accessed January 13, 2026, [https://intuitionlabs.ai/articles/google-tpu-architecture-gemini-3](https://intuitionlabs.ai/articles/google-tpu-architecture-gemini-3)  
-6. How to Think About TPUs | How To Scale Your Model - GitHub Pages, accessed January 13, 2026, [https://jax-ml.github.io/scaling-book/tpus/](https://jax-ml.github.io/scaling-book/tpus/)  
-7. GPU and TPU Comparative Analysis Report | by ByteBridge - Medium, accessed January 13, 2026, [https://bytebridge.medium.com/gpu-and-tpu-comparative-analysis-report-a5268e4f0d2a](https://bytebridge.medium.com/gpu-and-tpu-comparative-analysis-report-a5268e4f0d2a)  
-8. Tensor Processing Units (TPUs) - Google Cloud, accessed January 13, 2026, [https://cloud.google.com/tpu](https://cloud.google.com/tpu)  
-9. TPU v5e - Google Cloud Documentation, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/v5e](https://docs.cloud.google.com/tpu/docs/v5e)  
-10. TPU v6e - Google Cloud Documentation, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/v6e](https://docs.cloud.google.com/tpu/docs/v6e)  
-11. Google Trillium TPU (v6e) introduction : r/LocalLLaMA - Reddit, accessed January 13, 2026, [https://www.reddit.com/r/LocalLLaMA/comments/1gnru7c/google_trillium_tpu_v6e_introduction/](https://www.reddit.com/r/LocalLLaMA/comments/1gnru7c/google_trillium_tpu_v6e_introduction/)  
-12. JAX vs PyTorch: Comparing Two Deep Learning Frameworks - New Horizons, accessed January 13, 2026, [https://www.newhorizons.com/resources/blog/jax-vs-pytorch-comparing-two-deep-learning-frameworks](https://www.newhorizons.com/resources/blog/jax-vs-pytorch-comparing-two-deep-learning-frameworks)  
-13. A guide to JAX for PyTorch developers | Google Cloud Blog, accessed January 13, 2026, [https://cloud.google.com/blog/products/ai-machine-learning/guide-to-jax-for-pytorch-developers](https://cloud.google.com/blog/products/ai-machine-learning/guide-to-jax-for-pytorch-developers)  
-14. Deep Learning in Practice: A Technical Comparison of PyTorch and JAX - Medium, accessed January 13, 2026, [https://medium.com/@nijesh-kanjinghat/deep-learning-in-practice-a-technical-comparison-of-pytorch-and-jax-6458a115dcde](https://medium.com/@nijesh-kanjinghat/deep-learning-in-practice-a-technical-comparison-of-pytorch-and-jax-6458a115dcde)  
-15. jax-ml/jax: Composable transformations of Python+NumPy programs: differentiate, vectorize, JIT to GPU/TPU, and more - GitHub, accessed January 13, 2026, [https://github.com/jax-ml/jax](https://github.com/jax-ml/jax)  
-16. Part 1: JAX neural net basics - JAX AI Stack, accessed January 13, 2026, [https://docs.jaxstack.ai/en/latest/neural_net_basics.html](https://docs.jaxstack.ai/en/latest/neural_net_basics.html)  
-17. Building production AI on Google Cloud TPUs with JAX, accessed January 13, 2026, [https://developers.googleblog.com/building-production-ai-on-google-cloud-tpus-with-jax/](https://developers.googleblog.com/building-production-ai-on-google-cloud-tpus-with-jax/)  
-18. Building production AI on Cloud TPUs with JAX, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/jax-ai-stack](https://docs.cloud.google.com/tpu/docs/jax-ai-stack)  
-19. Writing a Training Loop in JAX and Flax - Wandb, accessed January 13, 2026, [https://wandb.ai/jax-series/simple-training-loop/reports/Writing-a-Training-Loop-in-JAX-and-Flax--VmlldzoyMzA4ODEy](https://wandb.ai/jax-series/simple-training-loop/reports/Writing-a-Training-Loop-in-JAX-and-Flax--VmlldzoyMzA4ODEy)  
-20. Image Classification with JAX, Flax, and Optax : A Step-by-Step Guide - Analytics Vidhya, accessed January 13, 2026, [https://www.analyticsvidhya.com/blog/2024/11/image-classification-with-jax-flax-and-optax/](https://www.analyticsvidhya.com/blog/2024/11/image-classification-with-jax-flax-and-optax/)  
-21. MNIST Tutorial - Flax - Read the Docs, accessed January 13, 2026, [https://flax.readthedocs.io/en/v0.8.2/experimental/nnx/mnist_tutorial.html](https://flax.readthedocs.io/en/v0.8.2/experimental/nnx/mnist_tutorial.html)  
-22. Fine-tuning RecurrentGemma using JAX and Flax | Google AI for Developers, accessed January 13, 2026, [https://ai.google.dev/gemma/docs/recurrentgemma/recurrentgemma_jax_finetune](https://ai.google.dev/gemma/docs/recurrentgemma/recurrentgemma_jax_finetune)  
-23. SPMD Parallelism with jax.shard_map and the Evolution Beyond pmap | CodeSignal Learn, accessed January 13, 2026, [https://codesignal.com/learn/courses/advanced-jax-transformations-for-speed-scale/lessons/parallel-universes-spmd-parallelism-with-jaxshardmap-and-the-evolution-beyond-pmap](https://codesignal.com/learn/courses/advanced-jax-transformations-for-speed-scale/lessons/parallel-universes-spmd-parallelism-with-jaxshardmap-and-the-evolution-beyond-pmap)  
-24. Programming TPUs in JAX | How To Scale Your Model - GitHub Pages, accessed January 13, 2026, [https://jax-ml.github.io/scaling-book/jax-stuff/](https://jax-ml.github.io/scaling-book/jax-stuff/)  
-25. What's the difference between xmap, shmap, pmap (pjit?) and which should I use? · jax-ml jax · Discussion #20312 - GitHub, accessed January 13, 2026, [https://github.com/jax-ml/jax/discussions/20312](https://github.com/jax-ml/jax/discussions/20312)  
-26. jax.pmap - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/_autosummary/jax.pmap.html](https://docs.jax.dev/en/latest/_autosummary/jax.pmap.html)  
-27. Manual parallelism with shard_map - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/notebooks/shard_map.html](https://docs.jax.dev/en/latest/notebooks/shard_map.html)  
-28. The Training Cookbook — JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/the-training-cookbook.html](https://docs.jax.dev/en/latest/the-training-cookbook.html)  
-29. Pallas Design - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/pallas/design/design.html](https://docs.jax.dev/en/latest/pallas/design/design.html)  
-30. Matrix Multiplication - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/pallas/tpu/matmul.html](https://docs.jax.dev/en/latest/pallas/tpu/matmul.html)  
-31. Colab - Google for Developers, accessed January 13, 2026, [https://developers.google.com/colab/release-notes](https://developers.google.com/colab/release-notes)  
-32. Issues · googlecolab/colabtools - GitHub, accessed January 13, 2026, [https://github.com/googlecolab/colabtools/issues/result](https://github.com/googlecolab/colabtools/issues/result)  
-33. Train a GPT2 model with JAX on TPU for free - Google Developers ..., accessed January 13, 2026, [https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/](https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/)  
-34. MNIST tutorial - Flax - Read the Docs, accessed January 13, 2026, [https://flax.readthedocs.io/en/stable/mnist_tutorial.html](https://flax.readthedocs.io/en/stable/mnist_tutorial.html)
+[1] TPU architecture | Google Cloud Documentation, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/system-architecture-tpu-vm](https://docs.cloud.google.com/tpu/docs/system-architecture-tpu-vm)
+
+[2] Why the JAX AI Stack is the New Standard for Megakernel Infrastructure - Rajat Pandit, accessed January 13, 2026, [https://rajatpandit.com/business-case-for-jax/](https://rajatpandit.com/business-case-for-jax/)
+
+[3] Google TPU Architecture: 7 Generations Explained | Introl Blog, accessed January 13, 2026, [https://introl.com/blog/google-tpu-architecture-complete-guide-7-generations](https://introl.com/blog/google-tpu-architecture-complete-guide-7-generations)
+
+[4] Tensor Processing Unit - Wikipedia, accessed January 13, 2026, [https://en.wikipedia.org/wiki/Tensor_Processing_Unit](https://en.wikipedia.org/wiki/Tensor_Processing_Unit)
+
+[5] Google TPUs Explained: Architecture & Performance for Gemini 3 | IntuitionLabs, accessed January 13, 2026, [https://intuitionlabs.ai/articles/google-tpu-architecture-gemini-3](https://intuitionlabs.ai/articles/google-tpu-architecture-gemini-3)
+
+[6] How to Think About TPUs | How To Scale Your Model - GitHub Pages, accessed January 13, 2026, [https://jax-ml.github.io/scaling-book/tpus/](https://jax-ml.github.io/scaling-book/tpus/)
+
+[7] GPU and TPU Comparative Analysis Report | by ByteBridge - Medium, accessed January 13, 2026, [https://bytebridge.medium.com/gpu-and-tpu-comparative-analysis-report-a5268e4f0d2a](https://bytebridge.medium.com/gpu-and-tpu-comparative-analysis-report-a5268e4f0d2a)
+
+[8] Tensor Processing Units (TPUs) - Google Cloud, accessed January 13, 2026, [https://cloud.google.com/tpu](https://cloud.google.com/tpu)
+
+[9] TPU v5e - Google Cloud Documentation, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/v5e](https://docs.cloud.google.com/tpu/docs/v5e)
+
+[10] TPU v6e - Google Cloud Documentation, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/v6e](https://docs.cloud.google.com/tpu/docs/v6e)
+
+[11] Google Trillium TPU (v6e) introduction : r/LocalLLaMA - Reddit, accessed January 13, 2026, [https://www.reddit.com/r/LocalLLaMA/comments/1gnru7c/google_trillium_tpu_v6e_introduction/](https://www.reddit.com/r/LocalLLaMA/comments/1gnru7c/google_trillium_tpu_v6e_introduction/)
+
+[12] JAX vs PyTorch: Comparing Two Deep Learning Frameworks - New Horizons, accessed January 13, 2026, [https://www.newhorizons.com/resources/blog/jax-vs-pytorch-comparing-two-deep-learning-frameworks](https://www.newhorizons.com/resources/blog/jax-vs-pytorch-comparing-two-deep-learning-frameworks)
+
+[13] A guide to JAX for PyTorch developers | Google Cloud Blog, accessed January 13, 2026, [https://cloud.google.com/blog/products/ai-machine-learning/guide-to-jax-for-pytorch-developers](https://cloud.google.com/blog/products/ai-machine-learning/guide-to-jax-for-pytorch-developers)
+
+[14] Deep Learning in Practice: A Technical Comparison of PyTorch and JAX - Medium, accessed January 13, 2026, [https://medium.com/@nijesh-kanjinghat/deep-learning-in-practice-a-technical-comparison-of-pytorch-and-jax-6458a115dcde](https://medium.com/@nijesh-kanjinghat/deep-learning-in-practice-a-technical-comparison-of-pytorch-and-jax-6458a115dcde)
+
+[15] jax-ml/jax: Composable transformations of Python+NumPy programs: differentiate, vectorize, JIT to GPU/TPU, and more - GitHub, accessed January 13, 2026, [https://github.com/jax-ml/jax](https://github.com/jax-ml/jax)
+
+[16] Part 1: JAX neural net basics - JAX AI Stack, accessed January 13, 2026, [https://docs.jaxstack.ai/en/latest/neural_net_basics.html](https://docs.jaxstack.ai/en/latest/neural_net_basics.html)
+
+[17] Building production AI on Google Cloud TPUs with JAX, accessed January 13, 2026, [https://developers.googleblog.com/building-production-ai-on-google-cloud-tpus-with-jax/](https://developers.googleblog.com/building-production-ai-on-google-cloud-tpus-with-jax/)
+
+[18] Building production AI on Cloud TPUs with JAX, accessed January 13, 2026, [https://docs.cloud.google.com/tpu/docs/jax-ai-stack](https://docs.cloud.google.com/tpu/docs/jax-ai-stack)
+
+[19] Writing a Training Loop in JAX and Flax - Wandb, accessed January 13, 2026, [https://wandb.ai/jax-series/simple-training-loop/reports/Writing-a-Training-Loop-in-JAX-and-Flax--VmlldzoyMzA4ODEy](https://wandb.ai/jax-series/simple-training-loop/reports/Writing-a-Training-Loop-in-JAX-and-Flax--VmlldzoyMzA4ODEy)
+
+[20] Image Classification with JAX, Flax, and Optax : A Step-by-Step Guide - Analytics Vidhya, accessed January 13, 2026, [https://www.analyticsvidhya.com/blog/2024/11/image-classification-with-jax-flax-and-optax/](https://www.analyticsvidhya.com/blog/2024/11/image-classification-with-jax-flax-and-optax/)
+
+[21] MNIST Tutorial - Flax - Read the Docs, accessed January 13, 2026, [https://flax.readthedocs.io/en/v0.8.2/experimental/nnx/mnist_tutorial.html](https://flax.readthedocs.io/en/v0.8.2/experimental/nnx/mnist_tutorial.html)
+
+[22] Fine-tuning RecurrentGemma using JAX and Flax | Google AI for Developers, accessed January 13, 2026, [https://ai.google.dev/gemma/docs/recurrentgemma/recurrentgemma_jax_finetune](https://ai.google.dev/gemma/docs/recurrentgemma/recurrentgemma_jax_finetune)
+
+[23] SPMD Parallelism with jax.shard_map and the Evolution Beyond pmap | CodeSignal Learn, accessed January 13, 2026, [https://codesignal.com/learn/courses/advanced-jax-transformations-for-speed-scale/lessons/parallel-universes-spmd-parallelism-with-jaxshardmap-and-the-evolution-beyond-pmap](https://codesignal.com/learn/courses/advanced-jax-transformations-for-speed-scale/lessons/parallel-universes-spmd-parallelism-with-jaxshardmap-and-the-evolution-beyond-pmap)
+
+[24] Programming TPUs in JAX | How To Scale Your Model - GitHub Pages, accessed January 13, 2026, [https://jax-ml.github.io/scaling-book/jax-stuff/](https://jax-ml.github.io/scaling-book/jax-stuff/)
+
+[25] What's the difference between xmap, shmap, pmap (pjit?) and which should I use? · jax-ml jax · Discussion #20312 - GitHub, accessed January 13, 2026, [https://github.com/jax-ml/jax/discussions/20312](https://github.com/jax-ml/jax/discussions/20312)
+
+[26] jax.pmap - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/_autosummary/jax.pmap.html](https://docs.jax.dev/en/latest/_autosummary/jax.pmap.html)
+
+[27] Manual parallelism with shard_map - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/notebooks/shard_map.html](https://docs.jax.dev/en/latest/notebooks/shard_map.html)
+
+[28] The Training Cookbook — JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/the-training-cookbook.html](https://docs.jax.dev/en/latest/the-training-cookbook.html)
+
+[29] Pallas Design - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/pallas/design/design.html](https://docs.jax.dev/en/latest/pallas/design/design.html)
+
+[30] Matrix Multiplication - JAX documentation, accessed January 13, 2026, [https://docs.jax.dev/en/latest/pallas/tpu/matmul.html](https://docs.jax.dev/en/latest/pallas/tpu/matmul.html)
+
+[31] Colab - Google for Developers, accessed January 13, 2026, [https://developers.google.com/colab/release-notes](https://developers.google.com/colab/release-notes)
+
+[32] Issues · googlecolab/colabtools - GitHub, accessed January 13, 2026, [https://github.com/googlecolab/colabtools/issues/result](https://github.com/googlecolab/colabtools/issues/result)
+
+[33] Train a GPT2 model with JAX on TPU for free - Google Developers ..., accessed January 13, 2026, [https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/](https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/)
+
+[34] MNIST tutorial - Flax - Read the Docs, accessed January 13, 2026, [https://flax.readthedocs.io/en/stable/mnist_tutorial.html](https://flax.readthedocs.io/en/stable/mnist_tutorial.html)
+
+
 
 [image1]: ../media/blog/tpu-jax/bottleneck-comparison.png
 [image2]: ../media/blog/tpu-jax/tpuv6e-performance.png
