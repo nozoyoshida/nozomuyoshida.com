@@ -408,3 +408,7 @@ Google TPUとJAXは、もはやGoogle内部だけの秘伝の技術ではない�
 32. Issues · googlecolab/colabtools - GitHub, accessed January 13, 2026, [https://github.com/googlecolab/colabtools/issues/result](https://github.com/googlecolab/colabtools/issues/result)  
 33. Train a GPT2 model with JAX on TPU for free - Google Developers ..., accessed January 13, 2026, [https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/](https://developers.googleblog.com/train-gpt2-model-with-jax-on-tpu/)  
 34. MNIST tutorial - Flax - Read the Docs, accessed January 13, 2026, [https://flax.readthedocs.io/en/stable/mnist_tutorial.html](https://flax.readthedocs.io/en/stable/mnist_tutorial.html)
+
+[image1]: /media/blog/tpu-jax/bottleneck-comparison.png
+[image2]: /media/blog/tpu-jax/tpuv6e-performance.png
+[image3]: /media/blog/tpu-jax/tpu-jax-roadmap.png
