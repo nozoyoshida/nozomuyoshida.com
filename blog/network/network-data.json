@@ -1,6 +1,15 @@
 {
   "nodes": [
     {
+      "id": "2026-01-14-tpu-jax-research-report",
+      "title": "Google TPUとJAX：次世代AI開発の標準スタックに関する包括的研究レポート",
+      "url": "/blog/2026-01-14-tpu-jax-research-report.html",
+      "group": "Research",
+      "size": 24021,
+      "pw": 0.9,
+      "so": 1
+    },
+    {
       "id": "2026-01-13-app-ma-exit-strategy",
       "title": "アプリ開発における「Exit（出口戦略）」：2026年のM&A市場と売却ロードマップ",
       "url": "/blog/2026-01-13-app-ma-exit-strategy.html",
