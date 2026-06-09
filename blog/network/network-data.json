@@ -89,6 +89,42 @@
       "size": 1883,
       "pw": -0.8,
       "so": -0.8
+    },
+    {
+      "id": "2018-04-14-books-films-challenges",
+      "title": "2018年、読んで観て挑んだ記録 ― 書評・映画・通訳案内士への挑戦",
+      "url": "/blog/2018-04-14-books-films-challenges.html",
+      "group": "Archive",
+      "size": 3120,
+      "pw": -0.2,
+      "so": 0.1
+    },
+    {
+      "id": "2017-09-27-canada-study-abroad",
+      "title": "カナダ留学記 ― 2017年夏、はじめての海外で見たもの",
+      "url": "/blog/2017-09-27-canada-study-abroad.html",
+      "group": "Archive",
+      "size": 3439,
+      "pw": -0.8,
+      "so": -0.8
+    },
+    {
+      "id": "2017-08-12-student-essays",
+      "title": "二十歳の思索 ― 学生時代に書き留めたこと",
+      "url": "/blog/2017-08-12-student-essays.html",
+      "group": "Archive",
+      "size": 2921,
+      "pw": -0.6,
+      "so": -0.5
+    },
+    {
+      "id": "2017-07-12-eiken-grade1-prep",
+      "title": "英検1級二次対策ノート ― テーマ別・論点の作り方",
+      "url": "/blog/2017-07-12-eiken-grade1-prep.html",
+      "group": "Archive",
+      "size": 2365,
+      "pw": -0.3,
+      "so": 0.4
     }
   ],
   "links": [
@@ -96,6 +132,11 @@
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2026-01-08-one-trillion-yen",
       "value": 0.05405405405405406
+    },
+    {
+      "source": "2026-01-08-one-trillion-yen",
+      "target": "2017-08-12-student-essays",
+      "value": 0.07142857142857142
     },
     {
       "source": "2025-12-24-ce_fde_sa_se_comparison",
@@ -106,6 +147,26 @@
       "source": "2025-11-21-hci-research-trends",
       "target": "2025-11-20-self-introduction",
       "value": 0.08227848101265822
+    },
+    {
+      "source": "2018-04-14-books-films-challenges",
+      "target": "2017-08-12-student-essays",
+      "value": 0.1111111111111111
+    },
+    {
+      "source": "2017-09-27-canada-study-abroad",
+      "target": "2017-08-12-student-essays",
+      "value": 0.18181818181818182
+    },
+    {
+      "source": "2017-09-27-canada-study-abroad",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.08
+    },
+    {
+      "source": "2017-08-12-student-essays",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.09090909090909091
     }
   ]
 }
