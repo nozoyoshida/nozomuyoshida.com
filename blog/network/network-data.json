@@ -91,6 +91,15 @@
       "so": -0.8
     },
     {
+      "id": "2023-01-01-2022-in-review",
+      "title": "2022年振り返り",
+      "url": "/blog/2023-01-01-2022-in-review.html",
+      "group": "Essay",
+      "size": 4496,
+      "pw": -0.2,
+      "so": -0.6
+    },
+    {
       "id": "2018-04-14-books-films-challenges",
       "title": "2018年、読んで観て挑んだ記録 ― 書評・映画・通訳案内士への挑戦",
       "url": "/blog/2018-04-14-books-films-challenges.html",
@@ -134,6 +143,11 @@
       "value": 0.05405405405405406
     },
     {
+      "source": "2026-01-08-one-trillion-yen",
+      "target": "2023-01-01-2022-in-review",
+      "value": 0.058823529411764705
+    },
+    {
       "source": "2025-12-24-ce_fde_sa_se_comparison",
       "target": "2025-12-24-gcp_ce_vs_openai_fde",
       "value": 0.11956521739130435
@@ -142,6 +156,11 @@
       "source": "2025-11-21-hci-research-trends",
       "target": "2025-11-20-self-introduction",
       "value": 0.08227848101265822
+    },
+    {
+      "source": "2025-11-20-self-introduction",
+      "target": "2023-01-01-2022-in-review",
+      "value": 0.06451612903225806
     },
     {
       "source": "2018-04-14-books-films-challenges",
