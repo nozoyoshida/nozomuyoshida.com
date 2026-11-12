@@ -2,37 +2,37 @@
   "nodes": [
     {
       "id": "2026-01-15-gemini-long-video-tips",
-      "title": "Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略",
+      "title": "Geminiで45分超の長尺動画を処理する分割設計とパラメータ調整",
       "url": "/blog/2026-01-15-gemini-long-video-tips.html",
       "group": "Research",
-      "size": 6565,
+      "size": 6245,
       "pw": 0,
       "so": 1
     },
     {
       "id": "2026-01-14-tpu-jax-research-report",
-      "title": "Google TPUとJAX：次世代AI開発の標準スタックに関する包括的研究レポート",
+      "title": "Google TPUとJAX：ハードウェア設計から分散学習までの技術解説",
       "url": "/blog/2026-01-14-tpu-jax-research-report.html",
       "group": "Research",
-      "size": 40887,
+      "size": 39002,
       "pw": 0.9,
       "so": 1
     },
     {
       "id": "2026-01-13-intro-to-tpu-jax",
-      "title": "Google TPUとJAX入門：次世代AI開発の標準スタック",
+      "title": "Google TPUとJAXの仕組みとソフトウェア構成",
       "url": "/blog/2026-01-13-intro-to-tpu-jax.html",
       "group": "Tech",
-      "size": 1864,
+      "size": 1729,
       "pw": 0.8,
       "so": 1
     },
     {
       "id": "2025-12-26-clock-mechanism",
-      "title": "手巻き式機械時計の全貌：人間と機械のエネルギー授受における工学的・哲学的考察",
+      "title": "手巻き式機械時計の工学と哲学",
       "url": "/blog/2025-12-26-clock-mechanism.html",
       "group": "Hobby",
-      "size": 25351,
+      "size": 22715,
       "pw": -0.8,
       "so": 0.8
     },
@@ -41,7 +41,7 @@
       "title": "Self Introduction",
       "url": "/blog/2025-11-20-self-introduction.html",
       "group": "Profile",
-      "size": 2040,
+      "size": 2618,
       "pw": -0.8,
       "so": -0.8
     },
@@ -95,127 +95,112 @@
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2026-01-14-tpu-jax-research-report",
-      "value": 0.09588068181818182
+      "value": 0.07828655834564253
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2026-01-13-intro-to-tpu-jax",
-      "value": 0.12217194570135746
+      "value": 0.11282051282051282
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2025-12-26-clock-mechanism",
-      "value": 0.07089084065244668
+      "value": 0.05617198335644938
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2023-01-01-2022-in-review",
-      "value": 0.08287292817679558
+      "value": 0.07194244604316546
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2018-04-14-books-films-challenges",
-      "value": 0.07344632768361582
+      "value": 0.07302709069493522
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2017-09-27-canada-study-abroad",
-      "value": 0.05084745762711865
+      "value": 0.050716648291069456
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2017-08-12-student-essays",
-      "value": 0.06979695431472081
+      "value": 0.07630522088353414
     },
     {
       "source": "2026-01-15-gemini-long-video-tips",
       "target": "2017-07-12-eiken-grade1-prep",
-      "value": 0.07815275310834814
+      "value": 0.06566604127579738
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2026-01-13-intro-to-tpu-jax",
-      "value": 0.1338403041825095
+      "value": 0.13105639396346305
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2025-12-26-clock-mechanism",
-      "value": 0.12818371607515658
+      "value": 0.11490683229813664
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2023-01-01-2022-in-review",
-      "value": 0.06208955223880597
+      "value": 0.06441717791411043
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2018-04-14-books-films-challenges",
-      "value": 0.07935627081021088
+      "value": 0.07219402143260012
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2017-09-27-canada-study-abroad",
-      "value": 0.06143162393162393
+      "value": 0.06232914160743576
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2017-08-12-student-essays",
-      "value": 0.06304222093695779
+      "value": 0.06532066508313539
     },
     {
       "source": "2026-01-14-tpu-jax-research-report",
       "target": "2017-07-12-eiken-grade1-prep",
-      "value": 0.058823529411764705
-    },
-    {
-      "source": "2026-01-13-intro-to-tpu-jax",
-      "target": "2025-12-26-clock-mechanism",
-      "value": 0.052798982188295165
+      "value": 0.058423913043478264
     },
     {
       "source": "2026-01-13-intro-to-tpu-jax",
       "target": "2023-01-01-2022-in-review",
-      "value": 0.07488986784140969
-    },
-    {
-      "source": "2026-01-13-intro-to-tpu-jax",
-      "target": "2018-04-14-books-films-challenges",
-      "value": 0.0589622641509434
-    },
-    {
-      "source": "2026-01-13-intro-to-tpu-jax",
-      "target": "2017-08-12-student-essays",
-      "value": 0.06460296096904442
+      "value": 0.05663189269746647
     },
     {
       "source": "2026-01-13-intro-to-tpu-jax",
       "target": "2017-07-12-eiken-grade1-prep",
-      "value": 0.05916030534351145
+      "value": 0.053465346534653464
     },
     {
       "source": "2025-12-26-clock-mechanism",
       "target": "2023-01-01-2022-in-review",
-      "value": 0.06116876024030585
+      "value": 0.066429418742586
     },
     {
       "source": "2025-12-26-clock-mechanism",
       "target": "2018-04-14-books-films-challenges",
-      "value": 0.07656967840735068
+      "value": 0.0749863163656267
     },
     {
       "source": "2025-12-26-clock-mechanism",
       "target": "2017-09-27-canada-study-abroad",
-      "value": 0.055964653902798235
+      "value": 0.05969360802958267
     },
     {
       "source": "2025-12-26-clock-mechanism",
       "target": "2017-08-12-student-essays",
-      "value": 0.06602768903088392
+      "value": 0.06785508913168488
     },
     {
       "source": "2025-12-26-clock-mechanism",
       "target": "2017-07-12-eiken-grade1-prep",
-      "value": 0.05369928400954654
+      "value": 0.055338541666666664
     },
     {
       "source": "2023-01-01-2022-in-review",

@@ -37,22 +37,22 @@
   
   
 
-    <title>Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略 | Nozomu Yoshida</title>
-    <meta name="description" content="Geminiで45分を超える長尺動画を扱う際の制限事項と、文脈を維持しながら分割・処理するための具体的な戦略について解説します。">
+    <title>Geminiで45分超の長尺動画を処理する分割設計とパラメータ調整 | Nozomu Yoshida</title>
+    <meta name="description" content="Vertex AI / Gemini APIで45分を超える長尺動画を扱う際の入力上限と、前後の文脈を保ちながら分割・統合する設計、サンプリングレート等の調整方法をまとめます。">
     <link rel="canonical" href="https://nozomuyoshida.com/blog/2026-01-15-gemini-long-video-tips.html">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://nozomuyoshida.com/blog/2026-01-15-gemini-long-video-tips.html">
-    <meta property="og:title" content="Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略 | Nozomu Yoshida">
-    <meta property="og:description" content="Geminiで45分を超える長尺動画を扱う際の制限事項と、文脈を維持しながら分割・処理するための具体的な戦略について解説します。">
+    <meta property="og:title" content="Geminiで45分超の長尺動画を処理する分割設計とパラメータ調整 | Nozomu Yoshida">
+    <meta property="og:description" content="Vertex AI / Gemini APIで45分を超える長尺動画を扱う際の入力上限と、前後の文脈を保ちながら分割・統合する設計、サンプリングレート等の調整方法をまとめます。">
     <meta property="og:image" content="https://nozomuyoshida.com/media/profile/chibi_gray.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary">
     <meta property="twitter:url" content="https://nozomuyoshida.com/blog/2026-01-15-gemini-long-video-tips.html">
-    <meta property="twitter:title" content="Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略 | Nozomu Yoshida">
-    <meta property="twitter:description" content="Geminiで45分を超える長尺動画を扱う際の制限事項と、文脈を維持しながら分割・処理するための具体的な戦略について解説します。">
+    <meta property="twitter:title" content="Geminiで45分超の長尺動画を処理する分割設計とパラメータ調整 | Nozomu Yoshida">
+    <meta property="twitter:description" content="Vertex AI / Gemini APIで45分を超える長尺動画を扱う際の入力上限と、前後の文脈を保ちながら分割・統合する設計、サンプリングレート等の調整方法をまとめます。">
     <meta property="twitter:image" content="https://nozomuyoshida.com/media/profile/chibi_gray.png">
     <meta property="twitter:site" content="@nozoyoshida">
 
@@ -89,29 +89,27 @@
         <div class="col-md-12">
             <a href="/blog/" class="back-link">&larr; Back to Blog</a>
             <div class="blog-post">
-                <h1>Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略</h1>
+                <h1>Geminiで45分超の長尺動画を処理する分割設計とパラメータ調整</h1>
                 <span class="date">1/15/2026</span>
-                <div class="blog-post-content"><p>動画検索システムの構築において、Gemini（Vertex AI）を活用した動画のメタデータ抽出は非常に強力な手法です。しかし、実運用では「45分の壁」という技術的な制約に直面することがあります。</p>
-<p>本稿では、仕様上の上限を超える長尺動画を処理する際の「分割のコツ」と「パラメータ最適化」について、具体的な実装戦略を提案します。</p>
-<hr>
-<h3>1. Geminiの動画処理における「45分の壁」</h3>
-<p>Google Cloudのドキュメントによれば、現状のVertex AI Gemini APIにおける動画入力の制限は以下の通りです。</p>
+                <div class="blog-post-content"><p>動画検索システムで動画からメタデータを抽出する際、Vertex AI の Gemini API に動画をそのまま渡せる仕組みは重宝します。ただ、実運用では音声付き動画で45分という入力上限にぶつかることがあります。</p>
+<h3>1. Gemini APIの動画入力上限とトークン消費量</h3>
+<p>Google Cloudのドキュメントによると、Vertex AI Gemini APIにおける1リクエストあたりの動画入力上限は次の通りです。</p>
 <ul>
-<li><strong>音声あり動画</strong>: 約45分まで</li>
-<li><strong>音声なし動画</strong>: 約1時間まで</li>
+<li>音声あり動画: 約45分まで</li>
+<li>音声なし動画: 約1時間まで</li>
 </ul>
-<p>これをデフォルトの1秒あたり1フレーム（1 FPS）のサンプリングレートで見ると、45分（2,700秒＝2,700フレーム）の動画は、標準解像度（1フレームあたり約258トークン＋音声約32トークン/秒）で<strong>合計約78万〜80万トークン規模</strong>に達します（低解像度モードの約66トークン/フレーム設定でも約26万トークン規模）。つまり45分という上限は、1M〜2Mトークンのコンテキストウィンドウ制約およびAPI側のペイロード・処理仕様の双方に直結しています。</p>
-<h3>2. 動画分割：単なる「半分」ではいけない理由</h3>
-<p>45分を超える動画を処理する場合、動画ファイルを分割して複数回処理することになりますが、単純に「0〜45分」「45〜90分」のように分割すると、境界線で会話や文脈が分断されるリスクがあります。これを防ぐための2つの重要戦略を紹介します。</p>
-<h4>A: 5分程度のオーバーラップを設ける</h4>
-<p>境界付近の文脈を保持するため、セグメント間に重なりを持たせることが不可欠です。</p>
+<p>デフォルトのサンプリングレート（1秒あたり1フレーム、1 FPS）で換算すると、45分（2,700秒＝2,700フレーム）の動画は標準解像度（1フレームあたり約258トークン＋音声約32トークン/秒）で<strong>合計約78万〜80万トークン規模</strong>にのぼります。約66トークン/フレームの低解像度モードでも約26万トークン規模になるため、45分という上限は1M〜2Mトークンのコンテキストウィンドウ制約と、API側のペイロード・処理仕様の双方に関わっています。</p>
+<h3>2. 文脈を切らさない動画分割の設計</h3>
+<p>45分を超える動画はファイルを分割して複数回APIへ渡すことになりますが、機械的に「0〜45分」「45〜90分」と区切ると、境界の前後で会話や出来事の文脈が途切れる恐れがあります。実務ではセグメント間のオーバーラップと前パート要約の引き継ぎを組み合わせて対処します。</p>
+<h4>セグメント間に5分程度のオーバーラップを設ける</h4>
+<p>前後の文脈が切れないよう、前パートの末尾5分程度を次パートの冒頭に重ねて切り出します。</p>
 <ul>
-<li><strong>1処理目</strong>: 0分 〜 45分 (実際の処理: 0-45分)</li>
-<li><strong>2処理目</strong>: 40分 〜 85分 (実際の処理: 40-85分)
-このように、前パートの末尾5分程度を次パートの冒頭に含めることで、イベントの分断を防ぎます。</li>
+<li>1パート目: 0分〜45分</li>
+<li>2パート目: 40分〜85分</li>
 </ul>
-<h4>B: 「Chain of Context」：前パートのメタデータを次パートのプロンプトに注入</h4>
-<p>より高度な手法として、1パート目の処理で抽出されたメタデータ（サマリーなどのテキスト情報）を、2パート目のAPIコール時のプロンプトに含める方法が有効です。</p>
+<p>5分間の重なりを作っておけば、45分前後にまたがる発話やイベントが途中で切れるのを防げます。</p>
+<h4>Chain of Contextで前パートの要約を引き継ぐ</h4>
+<p>オーバーラップに加えて、1パート目で抽出した構造化メタデータ（要約や登場人物、時系列ログなどのテキスト情報）を、2パート目のAPIリクエスト時にプロンプトへ含めて渡します。</p>
 <figure style="margin: 24px 0; padding: 18px 16px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; text-align: center;">
 <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chain of Contextによる長尺動画分割・文脈引き継ぎフロー" style="width: 100%; max-width: 740px; height: auto; display: block; margin: 0 auto; font-family: 'Open Sans', 'Hiragino Sans', 'Meiryo', sans-serif;">
   <defs>
@@ -151,29 +149,26 @@
 <figcaption style="font-size: 13px; color: #64748b; margin-top: 10px;">図：5分間のオーバーラップと前パート要約のプロンプト注入（Chain of Context）を組み合わせた長尺動画処理フロー</figcaption>
 </figure>
 
-<p>動画データそのものを渡すのは重いですが、テキスト情報に圧縮して伝えることで、前パートの状況を「コンテキスト（背景知識）」としてモデルに引き継ぎ、一貫した理解が可能になります。</p>
-<h3>3. メタデータの抽出と統合（Map-Reduceアプローチ）</h3>
-<p>分割して抽出したデータをどのように統合すべきでしょうか。以下の2つのステップを推奨します。</p>
+<p>前パートの動画データそのものを再送するとトークン量や転送量がかさみますが、テキスト情報に圧縮してプロンプトへ添えれば、それまでの経緯を背景知識としてモデルに引き継いだ状態で後半パートを解析できます。</p>
+<h3>3. Map-Reduceによるメタデータの抽出と統合</h3>
+<p>分割して抽出したデータを動画全体のタイムラインにまとめる処理は、次の2段階で行います。</p>
 <ol>
-<li><strong>各セグメントの個別抽出 (Map)</strong>: 各セグメントに対して、特定のタイムスタンプごとのイベント、キーワード、サマリーを抽出させます。</li>
-<li><strong>サマリーの統合サマリー (Reduce)</strong>: 全セグメントのメタデータが出揃った後、抽出されたテキストデータのみをGemini（Gemini 2.5 Pro / Flash など）に入力し、全体のタイムラインを再構築させます。</li>
+<li>個別抽出（Mapフェーズ）では分割した各セグメントから、タイムスタンプごとのイベント、キーワード、パート要約を抽出します。</li>
+<li>全体統合（Reduceフェーズ）では全セグメントのメタデータが出そろった後、抽出済みのテキストデータのみをGemini（Gemini 2.5 Pro / Flash など）に入力して全体のタイムラインを再構築します。</li>
 </ol>
-<p>この「情報の要約をさらに要約する」アプローチにより、動画全体を一貫したコンテキストで検索対象にすることが可能になります。</p>
-<h3>4. APIのパラメータ最適化アプローチ</h3>
-<p>動画の性質や目的に応じて、以下のパラメータを調整することで処理効率と精度をコントロールできます。</p>
-<h4>A: FPS調整と速度のトレードオフ</h4>
-<p>Vertex AI / Gemini API の <code>fps</code> パラメータ（サンプリングレート）をデフォルトの <code>1</code> より低く（例：<code>0.2</code>〜<code>0.5</code> FPS など 1 未満に）設定するか、前処理で動画を倍速化・フレーム間引きすることで、1時間以上の長尺動画でもトークン消費量を抑えて多くの時間範囲を処理させることができます。ただしサンプリング間隔を広げすぎると動きの激しいシーンを取り逃す場合があるため、板書中心の講義動画や定点映像など変化が緩やかな動画に特に有効です。
+<p>要約テキストをもう一段統合する形をとることで、長尺動画全体を一貫したコンテキストで検索対象にできます。</p>
+<h3>4. 動画の性質に合わせたFPSと解像度の調整</h3>
+<p>分割設計とあわせて、動画の性質や目的に応じてサンプリングレートと解像度を調整すると、処理効率と精度のバランスを取れます。</p>
+<h4>サンプリングレートを下げる</h4>
+<p>Vertex AI / Gemini API の <code>fps</code> パラメータ（サンプリングレート）をデフォルトの <code>1</code> より低く（例：<code>0.2</code>〜<code>0.5</code> FPS など 1 未満に）設定するか、前処理で動画を倍速化・フレーム間引きすることで、1時間以上の長尺動画でもトークン消費量を抑えて広い時間範囲を処理できます。ただしサンプリング間隔を広げすぎると動きの激しいシーンを取り逃す場合があるため、板書中心の講義動画や定点映像など変化が緩やかな動画に向いています。
 （参考：<a href="https://ai.google.dev/gemini-api/docs/video-understanding?hl=ja">動画の理解 | Gemini API</a>）</p>
 <blockquote>
 <p>長い動画の場合は、FPS を低く（1 未満）設定することをおすすめします。この機能は、ほとんど静止している動画（講義など）に特に役立ちます。</p>
 </blockquote>
-<h4>B: 解像度の最適化によるスピードアップ</h4>
-<p>動画の解像度を下げることで、処理スピード自体を上げることが可能です。Geminiは低解像度でも高い認識精度を維持できるため、メタデータ抽出などのタスクでは、転送コストとスピードのトレードオフとして非常に有効な手段です。
+<h4>入力動画の解像度を下げる</h4>
+<p>動画の解像度を下げると、データの転送量を抑えて処理を速くできます。Geminiは低解像度でも高い認識精度を維持できるため、転送コストと処理の速さを優先したいメタデータ抽出に向いています。
 （参考：<a href="https://tech-tech.nddhq.co.jp/2025/09/24/gemini-tokens-on-video-analysis/#">Gemini 1.5 Pro/Flashの動画解析におけるトークン消費量と制約</a>）</p>
-<h3>まとめ</h3>
-<p>45分超えの動画をGeminiで処理する際は、<strong>「適切なオーバーラップとコンテクストの連鎖」</strong>、そして<strong>「動画の性質に合わせたFPS・解像度の最適化」</strong>が鍵となります。</p>
-<p>単なる結合ではなく、境界の文脈を維持しつつ、計算リソースを最適に配分する工夫を実装に盛り込むことで、実用的で高度な動画検索システムの基盤を構築できるはずです。</p>
-<h4><strong>Works cited</strong></h4>
+<h4>Works cited</h4>
 <p>[1] 動画理解 | Generative AI on Vertex AI | Google Cloud Documentation <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/video-understanding">https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/video-understanding</a></p>
 <p>[2] Use the Gemini API for Video Analysis | Gemini API | Google for Developers <a href="https://ai.google.dev/gemini-api/docs/video">https://ai.google.dev/gemini-api/docs/video</a></p>
 </div>
