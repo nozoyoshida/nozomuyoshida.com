@@ -37,9 +37,7 @@
   ================================================================*/
 body {
   background-color: #FFF;
-  background-attachment: fixed;
   font-family: 'Open Sans', sans-serif;
-  height: 100%;
   width: 100%;
 }
 a {
@@ -1015,9 +1013,9 @@ to {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Prevent unwanted horizontal scrolling on small screens */
-  html, body {
-    overflow-x: hidden;
+  /* Prevent unwanted horizontal scrolling without creating a nested scroll container on iOS */
+  body {
+    overflow-x: clip;
     max-width: 100%;
   }
 }

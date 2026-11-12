@@ -138,11 +138,11 @@ jQuery( document ).ready(function() {
   }
 
   /**
-   * when window scroll
+   * when window scroll (passive, only if floating buttons exist)
    */
-  $( window ).scroll(function() {
-    setWindowScrollFunction();
-  });
+  if ( $toTopBtn.length > 0 || $contactFormBtn.length > 0 ) {
+    window.addEventListener( 'scroll', setWindowScrollFunction, { passive: true } );
+  }
 
   /**
    * when window resize
