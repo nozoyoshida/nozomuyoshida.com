@@ -1,0 +1,271 @@
+{
+  "nodes": [
+    {
+      "id": "2026-01-15-gemini-long-video-tips",
+      "title": "Geminiで長時間の動画を処理させるコツ：分割とパラメータ最適化の戦略",
+      "url": "/blog/2026-01-15-gemini-long-video-tips.html",
+      "group": "Research",
+      "size": 6565,
+      "pw": 0,
+      "so": 1
+    },
+    {
+      "id": "2026-01-14-tpu-jax-research-report",
+      "title": "Google TPUとJAX：次世代AI開発の標準スタックに関する包括的研究レポート",
+      "url": "/blog/2026-01-14-tpu-jax-research-report.html",
+      "group": "Research",
+      "size": 40887,
+      "pw": 0.9,
+      "so": 1
+    },
+    {
+      "id": "2026-01-13-intro-to-tpu-jax",
+      "title": "Google TPUとJAX入門：次世代AI開発の標準スタック",
+      "url": "/blog/2026-01-13-intro-to-tpu-jax.html",
+      "group": "Tech",
+      "size": 1864,
+      "pw": 0.8,
+      "so": 1
+    },
+    {
+      "id": "2025-12-26-clock-mechanism",
+      "title": "手巻き式機械時計の全貌：人間と機械のエネルギー授受における工学的・哲学的考察",
+      "url": "/blog/2025-12-26-clock-mechanism.html",
+      "group": "Hobby",
+      "size": 25351,
+      "pw": -0.8,
+      "so": 0.8
+    },
+    {
+      "id": "2025-11-20-self-introduction",
+      "title": "Self Introduction",
+      "url": "/blog/2025-11-20-self-introduction.html",
+      "group": "Profile",
+      "size": 2040,
+      "pw": -0.8,
+      "so": -0.8
+    },
+    {
+      "id": "2023-01-01-2022-in-review",
+      "title": "2022年振り返り",
+      "url": "/blog/2023-01-01-2022-in-review.html",
+      "group": "Essay",
+      "size": 4135,
+      "pw": -0.2,
+      "so": -0.6
+    },
+    {
+      "id": "2018-04-14-books-films-challenges",
+      "title": "2018年、読んで観て挑んだ記録 ― 書評・映画・通訳案内士への挑戦",
+      "url": "/blog/2018-04-14-books-films-challenges.html",
+      "group": "Archive",
+      "size": 4797,
+      "pw": -0.2,
+      "so": 0.1
+    },
+    {
+      "id": "2017-09-27-canada-study-abroad",
+      "title": "カナダ留学記 ― 2017年夏、はじめての海外で見たもの",
+      "url": "/blog/2017-09-27-canada-study-abroad.html",
+      "group": "Archive",
+      "size": 5067,
+      "pw": -0.8,
+      "so": -0.8
+    },
+    {
+      "id": "2017-08-12-student-essays",
+      "title": "二十歳の思索 ― 学生時代に書き留めたこと",
+      "url": "/blog/2017-08-12-student-essays.html",
+      "group": "Archive",
+      "size": 3745,
+      "pw": -0.6,
+      "so": -0.5
+    },
+    {
+      "id": "2017-07-12-eiken-grade1-prep",
+      "title": "英検1級二次対策ノート ― テーマ別・論点の作り方",
+      "url": "/blog/2017-07-12-eiken-grade1-prep.html",
+      "group": "Archive",
+      "size": 2202,
+      "pw": -0.3,
+      "so": 0.4
+    }
+  ],
+  "links": [
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2026-01-14-tpu-jax-research-report",
+      "value": 0.09588068181818182
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2026-01-13-intro-to-tpu-jax",
+      "value": 0.12217194570135746
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2025-12-26-clock-mechanism",
+      "value": 0.07089084065244668
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2023-01-01-2022-in-review",
+      "value": 0.08287292817679558
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2018-04-14-books-films-challenges",
+      "value": 0.07344632768361582
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2017-09-27-canada-study-abroad",
+      "value": 0.05084745762711865
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2017-08-12-student-essays",
+      "value": 0.06979695431472081
+    },
+    {
+      "source": "2026-01-15-gemini-long-video-tips",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.07815275310834814
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2026-01-13-intro-to-tpu-jax",
+      "value": 0.1338403041825095
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2025-12-26-clock-mechanism",
+      "value": 0.12818371607515658
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2023-01-01-2022-in-review",
+      "value": 0.06208955223880597
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2018-04-14-books-films-challenges",
+      "value": 0.07935627081021088
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2017-09-27-canada-study-abroad",
+      "value": 0.06143162393162393
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2017-08-12-student-essays",
+      "value": 0.06304222093695779
+    },
+    {
+      "source": "2026-01-14-tpu-jax-research-report",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.058823529411764705
+    },
+    {
+      "source": "2026-01-13-intro-to-tpu-jax",
+      "target": "2025-12-26-clock-mechanism",
+      "value": 0.052798982188295165
+    },
+    {
+      "source": "2026-01-13-intro-to-tpu-jax",
+      "target": "2023-01-01-2022-in-review",
+      "value": 0.07488986784140969
+    },
+    {
+      "source": "2026-01-13-intro-to-tpu-jax",
+      "target": "2018-04-14-books-films-challenges",
+      "value": 0.0589622641509434
+    },
+    {
+      "source": "2026-01-13-intro-to-tpu-jax",
+      "target": "2017-08-12-student-essays",
+      "value": 0.06460296096904442
+    },
+    {
+      "source": "2026-01-13-intro-to-tpu-jax",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.05916030534351145
+    },
+    {
+      "source": "2025-12-26-clock-mechanism",
+      "target": "2023-01-01-2022-in-review",
+      "value": 0.06116876024030585
+    },
+    {
+      "source": "2025-12-26-clock-mechanism",
+      "target": "2018-04-14-books-films-challenges",
+      "value": 0.07656967840735068
+    },
+    {
+      "source": "2025-12-26-clock-mechanism",
+      "target": "2017-09-27-canada-study-abroad",
+      "value": 0.055964653902798235
+    },
+    {
+      "source": "2025-12-26-clock-mechanism",
+      "target": "2017-08-12-student-essays",
+      "value": 0.06602768903088392
+    },
+    {
+      "source": "2025-12-26-clock-mechanism",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.05369928400954654
+    },
+    {
+      "source": "2023-01-01-2022-in-review",
+      "target": "2018-04-14-books-films-challenges",
+      "value": 0.13928914505283382
+    },
+    {
+      "source": "2023-01-01-2022-in-review",
+      "target": "2017-09-27-canada-study-abroad",
+      "value": 0.11030741410488246
+    },
+    {
+      "source": "2023-01-01-2022-in-review",
+      "target": "2017-08-12-student-essays",
+      "value": 0.1251303441084463
+    },
+    {
+      "source": "2023-01-01-2022-in-review",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.10775295663600526
+    },
+    {
+      "source": "2018-04-14-books-films-challenges",
+      "target": "2017-09-27-canada-study-abroad",
+      "value": 0.14921681780708987
+    },
+    {
+      "source": "2018-04-14-books-films-challenges",
+      "target": "2017-08-12-student-essays",
+      "value": 0.15813953488372093
+    },
+    {
+      "source": "2018-04-14-books-films-challenges",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.1401129943502825
+    },
+    {
+      "source": "2017-09-27-canada-study-abroad",
+      "target": "2017-08-12-student-essays",
+      "value": 0.16050495942290352
+    },
+    {
+      "source": "2017-09-27-canada-study-abroad",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.11927582534611289
+    },
+    {
+      "source": "2017-08-12-student-essays",
+      "target": "2017-07-12-eiken-grade1-prep",
+      "value": 0.14612452350698857
+    }
+  ]
+}

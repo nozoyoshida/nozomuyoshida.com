@@ -1,0 +1,303 @@
+const fs = require('fs');
+const path = require('path');
+const marked = require('marked');
+const frontMatter = require('front-matter');
+
+const POSTS_DIR = path.join(__dirname, '../_posts');
+const BLOG_DIR = path.join(__dirname, '../blog');
+const TEMPLATE_PATH = path.join(__dirname, '../index.html');
+
+// Ensure blog directory exists
+if (!fs.existsSync(BLOG_DIR)) {
+    fs.mkdirSync(BLOG_DIR);
+}
+
+// Read the main index.html to use as a base for styling
+const indexHtml = fs.readFileSync(TEMPLATE_PATH, 'utf8');
+
+// Extract head content to reuse styles
+const headMatch = indexHtml.match(/<head>([\s\S]*?)<\/head>/);
+const headContent = headMatch ? headMatch[1] : '';
+
+// Common Header/Footer for Blog
+// We'll create a simplified version of the header for the blog
+const blogHeader = `
+<header id="header" class="header-min">
+    <div class="cv-section">
+        <div class="col-md-12">
+            <h1><a href="https://nozomuyoshida.com/blog/" style="color: #333;">Nozomu Yoshida's Blog</a></h1>
+        </div>
+    </div>
+</header>
+`;
+
+const blogFooter = `
+<footer id="footer">
+    <div class="copyright">
+        <p style="font-size: 12px; color: #777; max-width: 820px; margin: 0 auto 8px; line-height: 1.6; text-transform: none;">
+            Disclaimer: The views and opinions expressed on this site are solely my own and do not represent those of my employer or any affiliated organizations.<br>
+            免責事項：本サイトおよび各記事に記載された見解・意見はすべて著者個人のものであり、所属する企業・組織を代表するものではありません。
+        </p>
+        <p style="font-size: 12px; color: #888; margin-bottom: 6px; text-transform: none;">
+            This site uses Google Analytics (cookies) for traffic analysis. See <a href="/privacy.html">Privacy Policy</a>.
+        </p>
+        <p>&copy; 2016–${new Date().getFullYear()} <a href="https://nozomuyoshida.com">Nozomu Yoshida</a></p>
+    </div>
+</footer>
+`;
+
+function generatePage(title, content, isIndex = false, metadata = {}) {
+    // Adjust paths for CSS/JS since we are in /blog/
+    let adjustedHead = headContent
+        .replace(/http:\/\/fonts\.googleapis\.com/g, 'https://fonts.googleapis.com')
+        .replace(/href="css\//g, 'href="../css/')
+        .replace(/href="media\//g, 'href="../media/')
+        .replace(/src="js\//g, 'src="../js/')
+        .replace(/src="vendor\//g, 'src="../vendor/');
+
+    // Remove default title and meta tags that we want to override
+    adjustedHead = adjustedHead.replace(/<title>.*<\/title>/, '')
+        .replace(/<meta name="description".*?>/, '')
+        .replace(/<meta name="keywords".*?>/, '')
+        .replace(/<link rel="canonical".*?>/, '')
+        .replace(/<meta property="og:.*?>/g, '')
+        .replace(/<meta (?:property|name)="twitter:.*?>/g, '');
+
+    const pageTitle = `${title} | Nozomu Yoshida`;
+    const pageDesc = metadata.description || "Nozomu Yoshida - M.S. in Informatics, Researcher, and Engineer specializing in HCI and Accessibility.";
+    const pageUrl = metadata.url || "https://nozomuyoshida.com/blog/";
+    const pageImage = metadata.image || "https://nozomuyoshida.com/media/profile/chibi_gray.png";
+    const pageType = isIndex ? 'website' : 'article';
+
+    return `<!DOCTYPE html>
+<html>
+<head>
+    ${adjustedHead}
+    <title>${pageTitle}</title>
+    <meta name="description" content="${pageDesc}">
+    <link rel="canonical" href="${pageUrl}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="${pageType}">
+    <meta property="og:url" content="${pageUrl}">
+    <meta property="og:title" content="${pageTitle}">
+    <meta property="og:description" content="${pageDesc}">
+    <meta property="og:image" content="${pageImage}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="${pageUrl}">
+    <meta property="twitter:title" content="${pageTitle}">
+    <meta property="twitter:description" content="${pageDesc}">
+    <meta property="twitter:image" content="${pageImage}">
+    <meta property="twitter:site" content="@nozoyoshida">
+
+    <style>
+        /* Blog specific overrides (matched to homepage typography) */
+        #page { margin-top: 20px; }
+        .blog-content { padding: 20px 0; }
+        /* Use the homepage font and color palette */
+        .blog-post { margin-bottom: 40px; font-family: 'Open Sans', sans-serif; color: #333; }
+        .blog-post h1 { font-size: 32px; margin-bottom: 15px; font-weight: 300; font-family: 'Open Sans', sans-serif; color: #333; line-height: 1.4; }
+        .blog-post .date { color: #999; font-size: 14px; margin-bottom: 20px; display: block; }
+        .blog-post-content { font-size: 16px; line-height: 1.8; font-family: 'Open Sans', sans-serif; color: #444; }
+        .blog-post-content h2 { margin-top: 30px; font-size: 20px; font-weight: 600; color: #222; }
+        .blog-post-content h3 { margin-top: 20px; font-size: 18px; font-weight: 600; color: #222; }
+        .blog-post-content p { color: #444; }
+        .blog-post-content img { max-width: 100%; height: auto; margin: 20px 0; }
+        .citation { font-size: 14px; color: #666; margin-bottom: 8px; line-height: 1.6; }
+        .back-link { margin-bottom: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+<div id="page" class="container">
+    ${blogHeader}
+    
+    <main id="content" class="cv-section blog-content">
+        <div class="col-md-12">
+            ${!isIndex ? '<a href="/blog/" class="back-link">&larr; Back to Blog</a>' : ''}
+            ${content}
+        </div>
+    </main>
+
+    ${blogFooter}
+</div>
+</body>
+</html>`;
+}
+
+// Clean up stale generated post HTML files so unpublished posts do not remain live
+const activeSlugs = new Set(
+    fs.readdirSync(POSTS_DIR)
+        .filter(f => path.extname(f) === '.md')
+        .map(f => path.basename(f, '.md'))
+);
+const preservedHtml = new Set(['index.html', 'privacy.html']);
+fs.readdirSync(BLOG_DIR).forEach(file => {
+    if (path.extname(file) === '.html' && !preservedHtml.has(file)) {
+        const slug = path.basename(file, '.html');
+        if (!activeSlugs.has(slug)) {
+            fs.unlinkSync(path.join(BLOG_DIR, file));
+            console.log(`Removed stale post HTML: blog/${file}`);
+        }
+    }
+});
+
+// Process Posts
+const posts = [];
+fs.readdirSync(POSTS_DIR).forEach(file => {
+    if (path.extname(file) === '.md') {
+        const fileContent = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
+        const fm = frontMatter(fileContent);
+        const { attributes, body } = fm;
+
+        // Pre-process markdown to handle bold without requiring spaces (common in Japanese)
+        const processedBody = body.replace(/\*\*(?=\S)(.+?)(?<!\s)\*\*/g, '<strong>$1</strong>');
+        const htmlContent = marked.parse(processedBody);
+        const slug = path.basename(file, '.md');
+
+
+        posts.push({
+            slug,
+            title: attributes.title,
+            date: attributes.date,
+            html: htmlContent,
+            body: body, // Include raw body for length calculation
+            ...attributes
+        });
+
+        // Generate Post Page
+        const postHtml = generatePage(
+            attributes.title,
+            `<div class="blog-post">
+                <h1>${attributes.title}</h1>
+                <span class="date">${new Date(attributes.date).toLocaleDateString()}</span>
+                <div class="blog-post-content">${htmlContent}</div>
+             </div>`,
+            false,
+            {
+                description: attributes.excerpt || attributes.description || `Read ${attributes.title} on Nozomu Yoshida's Blog`,
+                url: `https://nozomuyoshida.com/blog/${slug}.html`,
+                image: attributes.image
+            }
+        );
+        fs.writeFileSync(path.join(BLOG_DIR, `${slug}.html`), postHtml);
+    }
+});
+
+// Sort posts by date desc
+posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+// Generate Index Page
+const indexContent = `
+    <div class="blog-list">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="network/" class="btn btn-default"><i class="fa fa-share-alt"></i> View Network Graph</a>
+        </div>
+        ${posts.map(post => `
+            <div class="cv-item">
+                <h3><a href="${post.slug}.html">${post.title}</a></h3>
+                <h4 class="date">${new Date(post.date).toLocaleDateString()}</h4>
+                <p>${post.excerpt || ''}</p>
+            </div>
+        `).join('')}
+    </div>
+`;
+
+fs.writeFileSync(path.join(BLOG_DIR, 'index.html'), generatePage('Blog', indexContent, true, {
+    description: "Blog of Nozomu Yoshida - Thoughts on HCI, Accessibility, and Technology.",
+    url: "https://nozomuyoshida.com/blog/"
+}));
+
+// --- Network Visualization Data Generation ---
+
+const jaSegmenter = new Intl.Segmenter('ja', { granularity: 'word' });
+function getTokens(text) {
+    return Array.from(jaSegmenter.segment(text.toLowerCase()))
+        .filter(s => s.isWordLike)
+        .map(s => s.segment)
+        .filter(w => (/[\u3040-\u30ff\u4e00-\u9faf]/.test(w) ? w.length >= 2 : w.length > 3));
+}
+
+function calculateSimilarity(tokens1, tokens2) {
+    const set1 = new Set(tokens1);
+    const set2 = new Set(tokens2);
+    const intersection = new Set([...set1].filter(x => set2.has(x)));
+    const union = new Set([...set1, ...set2]);
+    return intersection.size / union.size; // Jaccard similarity for simplicity
+}
+
+// Compute axis scores for each post to map onto a 2D conceptual space:
+// - pw: private (-1) -> work (+1) (left - right)
+// - so: subjective (-1) -> objective (+1) (top - bottom)
+function computeAxisScores(htmlText) {
+    const text = htmlText.replace(/<[^>]*>/g, '').toLowerCase();
+
+    const privateWords = ['i', 'me', 'my', 'personal', 'diary', '日記', '自己紹介', '私', '僕', 'わたし'];
+    const workWords = ['project', 'research', 'study', 'method', 'result', 'career', 'customer', 'gcp', 'openai', 'aws', 'work', 'job', '仕事', '研究'];
+
+    const subjectiveWords = ['i think', 'i feel', 'opinion', 'suggest', 'believe', 'should', 'personal', '感想', '思う', '感じ'];
+    const objectiveWords = ['study', 'results', 'data', 'experiment', 'paper', 'reference', 'method', 'analysis', '調査', '結果', 'データ'];
+
+    const tokens = getTokens(text);
+
+    const countMatches = (list) => tokens.reduce((sum, t) => sum + (list.includes(t) ? 1 : 0), 0);
+
+    const p = countMatches(privateWords);
+    const w = countMatches(workWords);
+    const s = countMatches(subjectiveWords);
+    const o = countMatches(objectiveWords);
+
+    // Normalize to -1..1. If no matches, default to 0.
+    const pw = (p + w) === 0 ? 0 : (w - p) / (w + p);
+    const so = (s + o) === 0 ? 0 : (o - s) / (o + s);
+
+    return { pw, so };
+}
+
+const clamp = (v) => Math.max(-1, Math.min(1, v));
+
+const nodes = posts.map((post, index) => {
+    const { pw: computedPw, so: computedSo } = computeAxisScores(post.html || post.body);
+
+    // Prefer explicit front-matter overrides if present, otherwise use computed values
+    const pw = typeof post.pw !== 'undefined' ? clamp(Number(post.pw)) : clamp(computedPw);
+    const so = typeof post.so !== 'undefined' ? clamp(Number(post.so)) : clamp(computedSo);
+
+    return {
+        id: post.slug,
+        title: post.title,
+        url: `/blog/${post.slug}.html`,
+        group: post.category || 'General',
+        size: post.body.length, // Use markdown body length
+        pw, // private (-1) -> work (+1)
+        so  // subjective (-1) -> objective (+1)
+    };
+});
+
+const links = [];
+for (let i = 0; i < posts.length; i++) {
+    for (let j = i + 1; j < posts.length; j++) {
+        const tokens1 = getTokens(posts[i].html.replace(/<[^>]*>/g, '')); // Strip HTML
+        const tokens2 = getTokens(posts[j].html.replace(/<[^>]*>/g, ''));
+        const weight = calculateSimilarity(tokens1, tokens2);
+
+        if (weight > 0.05) { // Threshold for connection
+            links.push({
+                source: posts[i].slug,
+                target: posts[j].slug,
+                value: weight
+            });
+        }
+    }
+}
+
+const networkDir = path.join(BLOG_DIR, 'network');
+if (!fs.existsSync(networkDir)) {
+    fs.mkdirSync(networkDir);
+}
+
+fs.writeFileSync(path.join(networkDir, 'network-data.json'), JSON.stringify({ nodes, links }, null, 2));
+console.log('Network data generated.');
+
+console.log('Blog built successfully!');

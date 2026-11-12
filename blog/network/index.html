@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Blog Network | Nozomu Yoshida</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:300,400,600" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #337ab7;
+            /* Bootstrap primary blue from main site */
+            --node-color: #e0e0e0;
+            --link-color: #cccccc;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Open Sans', sans-serif;
+            /* Match main site font */
+            color: var(--text-color);
+        }
+
+        #network {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* UI Elements */
+        .ui-layer {
+            position: absolute;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .header-panel {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            pointer-events: auto;            cursor: pointer; /* clickable to open the guide */            max-width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            /* Minimalist border/shadow to match clean CV style */
+            border-left: 3px solid var(--accent-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-panel h1 {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+
+        .header-panel p {
+            margin: 0 0 20px 0;
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            pointer-events: auto;
+            display: inline-block;
+            padding: 8px 16px;
+            background: #fff;
+            border: 1px solid #ddd;
+            color: #555;
+            text-decoration: none;
+            border-radius: 3px;
+            /* Slightly squared for CV look */
+            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+            border-color: #ccc;
+            text-decoration: none;
+        }
+
+
+        /* Header expansion for the inline guide */
+        .header-panel .header-expanded { display: none; }
+        .header-panel.expanded { background: rgba(255,255,255,0.99); box-shadow: 0 8px 30px rgba(0,0,0,0.08); padding-bottom: 18px; }
+        .header-panel.expanded .header-expanded { display: block; margin-top:10px; }
+        .header-panel h1 { margin-bottom: 6px; }
+        .header-panel .legend { margin-top:10px; }
+
+        /* Legend & Info */
+        .info-section h3 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .info-item {
+            margin-bottom: 6px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            color: #666;
+        }
+
+        .info-item strong {
+            margin-right: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .legend {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #eee;
+            padding: 12px;
+            border-radius: 3px;
+            pointer-events: auto; /* allow clicking inside tooltip */
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 320px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            color: #333;
+            z-index: 20;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #tooltip h3 {
+            margin: 0 0 3px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        #tooltip p {
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #666;
+        }
+
+        /* Read button inside tooltip */
+        .tooltip-read-btn {
+            display:inline-block;
+            margin-top:10px;
+            padding:8px 12px;
+            background:var(--accent-color);
+            color:#fff;
+            text-decoration:none;
+            border-radius:3px;
+            font-weight:600;
+            font-size:13px;
+        }
+
+        .tooltip-close {
+            display:inline-block;
+            margin-left:8px;
+            padding:8px 10px;
+            background:#fff;
+            border:1px solid #ddd;
+            color:#444;
+            border-radius:3px;
+            font-weight:600;
+            font-size:13px;
+        }
+
+        /* Graph Styles */
+        .node circle {
+            stroke: #fff;
+            stroke-width: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+        }
+
+        .node:hover circle {
+            stroke: var(--accent-color);
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
+        }
+
+        .node text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 11px;
+            pointer-events: none;
+            opacity: 1;
+            fill: #555;
+            font-weight: 600;
+            text-anchor: middle;
+            dominant-baseline: hanging; /* position text below the node */
+        }
+
+        /* Keep hover subtle effect on circle only; labels are always visible */
+        .node:hover circle {
+            stroke: var(--accent-color);
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Highlight State */
+        .node.dimmed {
+            opacity: 0.1;
+        }
+
+        .node.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ui-layer">
+        <div class="header-panel" id="header-panel">
+            <h1>Knowledge Graph</h1>
+            <div class="header-expanded">
+                <p>Visualizing connections between my thoughts and experiences.</p>
+
+                <div class="info-section">
+                    <h3>How to Read</h3>
+                    <div class="info-item">
+                        <strong>Size:</strong> Article length (longer = larger).
+                    </div>
+                    <div class="info-item">
+                        <strong>Distance:</strong> Content similarity.
+                    </div>
+                    <div class="info-item">
+                        <strong>Color:</strong> Category.
+                    </div>
+
+                    <div class="legend" id="legend">
+                        <!-- Legend items will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/blog/" class="back-btn">&larr; Back to Blog</a>
+
+        <div id="tooltip"></div> 
+    </div>
+
+    <div id="network"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        const svg = d3.select("#network").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .call(d3.zoom().on("zoom", (event) => {
+                container.attr("transform", event.transform);
+            }))
+            .append("g");
+
+        const container = svg.append("g");
+
+        // No dark gradient for light theme
+
+
+        const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(150))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collide", d3.forceCollide(d => sizeScale(d.size) + 10)); // Dynamic collision radius
+
+        const tooltip = d3.select("#tooltip");
+
+        // Tooltip pinning state and helpers
+        let pinnedNodeId = null;
+
+        function showTooltip(d, event, pin = false) {
+            // Simplified tooltip: only title and read button per spec
+            tooltip.html(
+                `<h3 style="margin:0 0 6px 0;">${d.title}</h3>` +
+                `<div style="margin-top:8px;"><a class="tooltip-read-btn" href="${d.url}">Read article</a></div>`
+            );
+
+            tooltip.style("left", (event.pageX + 20) + "px").style("top", (event.pageY - 20) + "px");
+            tooltip.style("opacity", 1);
+
+            if (pin) {
+                pinnedNodeId = d.id;
+            }
+        }
+
+        function hideTooltip(force = false) {
+            if (pinnedNodeId && !force) return;
+            tooltip.style('opacity', 0);
+        }
+
+        // Click outside hides pinned tooltip
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest || (!e.target.closest('.node') && !e.target.closest('#tooltip'))) {
+                pinnedNodeId = null;
+                tooltip.style('opacity', 0);
+            }
+        });
+
+        // Inline header guide controls (click to expand/collapse)
+        const headerPanel = document.querySelector('.header-panel');
+
+        function toggleHeaderGuide(e) {
+            e.stopPropagation();
+            headerPanel.classList.toggle('expanded');
+        }
+        if (headerPanel) headerPanel.addEventListener('click', toggleHeaderGuide);
+
+        // Close header guide when clicking outside or pressing Escape
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest || !e.target.closest('.header-panel')) {
+                headerPanel.classList.remove('expanded');
+            }
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') headerPanel.classList.remove('expanded'); });
+
+        // Scale for node size based on article length
+        // Further adjusted range to minimize variance: 12px to 16px radius
+        const sizeScale = d3.scaleSqrt().range([12, 16]);
+
+        // Axis helpers declared in outer scope so resize handler can access them
+        const margin = 80;
+        let xScale;
+        let yScale;
+        let graphData = null; // store loaded graph for resize updates
+
+        // Compute deterministic offsets for nodes that share identical (pw, so)
+        function computeOffsets(graph) {
+            const groups = {};
+            graph.nodes.forEach(d => {
+                const key = `${d.pw}_${d.so}`;
+                if (!groups[key]) groups[key] = [];
+                groups[key].push(d);
+            });
+
+            Object.values(groups).forEach(group => {
+                if (group.length === 1) {
+                    group[0]._ox = 0; group[0]._oy = 0;
+                    return;
+                }
+                // Deterministic order
+                group.sort((a, b) => a.id.localeCompare(b.id));
+                const maxDiameter = d3.max(group, n => (sizeScale(n.size || 100) * 2)) || 30;
+                const gap = maxDiameter + 6; // pixels between rings
+                const golden = 2.399963229728653; // golden angle (radians)
+                for (let i = 0; i < group.length; i++) {
+                    // avoid r=0 for the first item: use sqrt(i+1) so all nodes get nonzero offset
+                    const r = gap * Math.sqrt(i + 1);
+                    const angle = i * golden;
+                    group[i]._ox = Math.cos(angle) * r;
+                    group[i]._oy = Math.sin(angle) * r;
+                }
+            });
+        }
+
+        d3.json("network-data.json").then(function (graph) {
+
+            // Axis mapping (pw: private -> work, so: subjective -> objective)
+            // margin and scales declared outside so they can be updated on resize
+            xScale = d3.scaleLinear().domain([-1, 1]).range([margin, width - margin]);
+            yScale = d3.scaleLinear().domain([-1, 1]).range([margin, height - margin]);
+
+            // Ensure pw/so are numeric and set initial positions so nodes start at the expected coordinates
+            graph.nodes.forEach(d => {
+                d.pw = (typeof d.pw !== 'undefined' && !isNaN(+d.pw)) ? +d.pw : 0;
+                d.so = (typeof d.so !== 'undefined' && !isNaN(+d.so)) ? +d.so : 0;
+                d.x = xScale(d.pw);
+                d.y = yScale(d.so);
+                d._ox = 0; d._oy = 0; // default offsets
+            });
+
+            // Disable force simulation: nodes are fixed at (pw, so) and should not move
+            simulation.stop(); // no physics
+
+            // Draw axis crosshair (subtle) and keep references for dynamic resizing
+            const axisV = container.append("line")
+                .attr("class", "axis-line axis-vertical")
+                .attr("x1", xScale(0)).attr("x2", xScale(0))
+                .attr("y1", yScale(-1)).attr("y2", yScale(1))
+                .style("stroke", "#eee").style("stroke-width", 1);
+
+            const axisH = container.append("line")
+                .attr("class", "axis-line axis-horizontal")
+                .attr("x1", xScale(-1)).attr("x2", xScale(1))
+                .attr("y1", yScale(0)).attr("y2", yScale(0))
+                .style("stroke", "#eee").style("stroke-width", 1);
+
+            // Axis labels (give classes for updating positions on resize)
+            const labelLeft = container.append("text").attr("class", "axis-label axis-left").attr("x", xScale(-1) + 6).attr("y", yScale(0) - 10).text("Private").attr("fill", "#999").attr("font-size", "12px");
+            const labelRight = container.append("text").attr("class", "axis-label axis-right").attr("x", xScale(1) - 6).attr("y", yScale(0) - 10).text("Work").attr("fill", "#999").attr("font-size", "12px").attr("text-anchor", "end");
+            const labelTop = container.append("text").attr("class", "axis-label axis-top").attr("x", xScale(0) + 8).attr("y", yScale(-1) + 16).text("Subjective").attr("fill", "#999").attr("font-size", "12px");
+            const labelBottom = container.append("text").attr("class", "axis-label axis-bottom").attr("x", xScale(0) + 8).attr("y", yScale(1) - 6).text("Objective").attr("fill", "#999").attr("font-size", "12px");
+
+            // Apply x/y forces to position nodes on the axes
+            simulation.force("x", d3.forceX(d => xScale(d.pw)).strength(0.95));
+            simulation.force("y", d3.forceY(d => yScale(d.so)).strength(0.95));
+
+            // Calculate node degrees for sizing
+            const nodeDegree = {};
+            graph.links.forEach(link => {
+                nodeDegree[link.source] = (nodeDegree[link.source] || 0) + 1;
+                nodeDegree[link.target] = (nodeDegree[link.target] || 0) + 1;
+            });
+
+            // Set domain for size scale
+            const minSize = d3.min(graph.nodes, d => d.size) || 100;
+            const maxSize = d3.max(graph.nodes, d => d.size) || 5000;
+            sizeScale.domain([minSize, maxSize]);
+
+            // NOTE: Links are NOT rendered visually, but they still affect the simulation.
+
+            const node = container.append("g")
+                .attr("class", "nodes")
+                .selectAll("g")
+                .data(graph.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .on("click", (event, d) => { event.stopPropagation(); if (pinnedNodeId === d.id) { pinnedNodeId = null; hideTooltip(true); } else { showTooltip(d, event, true); } })
+                .on("mouseover", (event, d) => { mouseover(event, d); })
+                .on("mouseout", (event, d) => { mouseout(event, d); });
+
+            // Color scale for categories
+            const categories = Array.from(new Set(graph.nodes.map(d => d.group))).sort();
+            const color = d3.scaleOrdinal(d3.schemeCategory10).domain(categories);
+
+            // Populate Legend
+            const legendContainer = d3.select("#legend");
+            categories.forEach(cat => {
+                const item = legendContainer.append("div").attr("class", "legend-item");
+                item.append("span").attr("class", "dot").style("background", color(cat));
+                item.append("span").text(cat);
+            });
+
+            node.append("circle")
+                .attr("r", d => sizeScale(d.size || 1000)) // Size based on article length
+                .attr("fill", d => color(d.group));
+
+            node.append("text")
+                .attr("dx", 0)
+                .attr("dy", d => (sizeScale(d.size || 1000) + 6)) // place below the circle
+                .attr("text-anchor", "middle")
+                .text(d => (d.title && d.title.length > 15) ? d.title.slice(0, 15) : d.title);
+
+            // Compute offsets for overlapping nodes and store graph for later resize handling
+            computeOffsets(graph);
+            graphData = graph;
+
+            // Initial render using offsets
+            ticked(); // initial render based on pw/so + offsets
+
+
+            function ticked() {
+                // Deterministic positions based on pw/so plus precomputed offsets
+                node.attr("transform", d => `translate(${xScale(d.pw) + (d._ox || 0)},${yScale(d.so) + (d._oy || 0)})`);
+            }
+
+            function mouseover(event, d) {
+                // Highlight connections
+                node.classed("dimmed", true);
+
+                const connectedNodeIds = new Set();
+                connectedNodeIds.add(d.id);
+
+                // Find connected nodes via the graph.links data (even if not rendered)
+                graph.links.forEach(l => {
+                    if (l.source.id === d.id || l.target.id === d.id) {
+                        connectedNodeIds.add(l.source.id);
+                        connectedNodeIds.add(l.target.id);
+                    }
+                });
+
+                node.filter(n => connectedNodeIds.has(n.id))
+                    .classed("active", true)
+                    .classed("dimmed", false);
+
+                // Note: Tooltip is not shown on hover. Click to open details.
+            }
+
+            function mouseout() {
+                node.classed("dimmed", false).classed("active", false);
+                // Do not hide tooltip here; tooltip visibility is controlled by click (pin) and document click.
+            }
+        });
+
+        // Drag handlers removed: nodes are fixed and not draggable.
+
+        window.addEventListener('resize', () => {
+            // Recompute sizes
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            svg.attr("width", width).attr("height", height);
+
+            // Update scale ranges
+            xScale.range([margin, width - margin]);
+            yScale.range([margin, height - margin]);
+
+            // Update axis visuals
+            container.select('.axis-vertical')
+                .attr('x1', xScale(0)).attr('x2', xScale(0))
+                .attr('y1', yScale(-1)).attr('y2', yScale(1));
+
+            container.select('.axis-horizontal')
+                .attr('x1', xScale(-1)).attr('x2', xScale(1))
+                .attr('y1', yScale(0)).attr('y2', yScale(0));
+
+            container.select('.axis-left').attr('x', xScale(-1) + 6).attr('y', yScale(0) - 10);
+            container.select('.axis-right').attr('x', xScale(1) - 6).attr('y', yScale(0) - 10);
+            container.select('.axis-top').attr('x', xScale(0) + 8).attr('y', yScale(-1) + 16);
+            container.select('.axis-bottom').attr('x', xScale(0) + 8).attr('y', yScale(1) - 6);
+
+            // For fixed layout, recompute offsets (if needed) and update node positions directly
+            if (graphData) computeOffsets(graphData);
+            container.selectAll('.node').attr("transform", d => `translate(${xScale(d.pw) + (d._ox || 0)},${yScale(d.so) + (d._oy || 0)})`);
+
+            // Update center force if any visuals depend on it (kept for completeness)
+            simulation.force("center", d3.forceCenter(width / 2, height / 2));
+        });
+    </script>
+
+</body>
+
+</html>
