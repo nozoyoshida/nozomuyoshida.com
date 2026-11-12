@@ -541,12 +541,14 @@ li:before {
   #FOOTER - copyright
   ================================================================*/
 .copyright {
-  height: 48px;
+  min-height: 48px;
+  height: auto;
+  padding: 14px 16px;
   margin: 0 auto;
   background-color: #fff;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
-  text-transform: uppercase;
+  text-transform: none;
 }
 @media (min-width: 992px) {
   .copyright {
@@ -556,8 +558,9 @@ li:before {
 .copyright p {
   text-align: center;
   color: #757575;
-  line-height: 48px;
-  font-size: 13px;
+  line-height: 1.6;
+  font-size: 12.5px;
+  margin: 0;
 }
 /*================================================================
   #FOOTER contact

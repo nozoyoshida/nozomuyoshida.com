@@ -537,11 +537,13 @@ li {
   ================================================================*/
 
 .copyright {
-  height: @space-base;
+  min-height: @space-base;
+  height: auto;
+  padding: 14px 16px;
   margin: 0 auto;
   background-color: @gray-lighter;
   .border-top-radius(@border-radius-base);
-  text-transform: uppercase;
+  text-transform: none;
 
   @media (min-width: @screen-md-min) {
     width: @section-width;
@@ -550,8 +552,9 @@ li {
   p {
     text-align: center;
     color: @text-invert-color;
-    line-height: @space-base;
-    font-size: @font-size-small;
+    line-height: 1.6;
+    font-size: 12.5px;
+    margin: 0;
   }
 }
 
